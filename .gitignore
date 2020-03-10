@@ -6,3 +6,7 @@
 /SSDPServer/dist/
 /NFSClient/nbproject/private/
 /NFSServer/nbproject/private/
+/NFSClient/dist/
+/NFSClient/build/
+/NFSServer/build/
+/NFSServer/dist/

@@ -44,7 +44,7 @@ public class CIGIServer {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
                     
-                    int ll=cigi.decodePacket(b, 0, 88);
+                    int ll=cigi.decodePacket(b, 0, dp.getLength());
                     System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
@@ -91,7 +91,7 @@ public class CIGIServer {
 //                    
                     
 //                    String m="01100200400000001a2c7a6w000000002c180018"+"00000000"+      "40"+s+hexdata1 +   "40"+latitude  +"2b30"+hexdata;
-                    int offset=0,len=61;
+                    int offset=0,len=dp.getLength();
                    byte[] newdata=new byte[offset+len+61];
                     
                     int len2=cigi.createPacket(b, offset, len);

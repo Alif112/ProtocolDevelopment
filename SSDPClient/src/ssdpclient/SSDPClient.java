@@ -65,14 +65,19 @@ public class SSDPClient {
                     int len2=4;
                     byte[] data2 = new byte[len2];
                     data=Utility.getRandomData(data2, len2);
-                    String hexdata2=Utility.bytesToHex(data2);
+                    String hexdata2=Utility.bytesToHex(data,0,len2);
 //                    System.out.println(hexdata2);
                     
                     len2=52;
                     byte[] data3 = new byte[len2];
                     data=Utility.getRandomData(data3, len2);
-                    String hexdata3=Utility.bytesToHex(data3);
+                    String hexdata3=Utility.bytesToHex(data,0,len2);
                     
+                    
+                    int len4=4;
+                    byte[] data4 = new byte[len4];
+                    data=Utility.getRandomData(data4, len4);
+                    String hexdata4=Utility.bytesToHex(data,0,len4);
                     
 //                    int idint=i%256;
 //                    byte bid=(byte) idint;
@@ -85,7 +90,7 @@ public class SSDPClient {
                     /** PPP OSINLCP 8059, first hex14, second hex94 **/
 //                    String m=hexdata+"621b2f7e03f1"+"8023010100640060"+hexdata2;
 //                    String m="5e1d0bdd0000000000000002000186a3000000030000001300000001000000343847760b00000009776572726d736368650000000000000000000001000000050000000100000000000000020000000300000011000000000000000000000020"+hexdata;
-                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata2+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
+                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata4+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
                     
 //                    int offset=0,len=61;
 //                    
