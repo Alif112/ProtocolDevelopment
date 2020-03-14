@@ -10,3 +10,9 @@
 /NFSClient/build/
 /NFSServer/build/
 /NFSServer/dist/
+/MGCPServer/nbproject/private/
+/MGCPClient/nbproject/private/
+/MGCPClient/dist/
+/MGCPClient/build/
+/MGCPServer/build/
+/MGCPServer/dist/

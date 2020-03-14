@@ -87,9 +87,9 @@ public class NTPServer {
 //                    byte[] b1=Utility.hexStringToByteArray(m);
               
                     
-                    int len=42;
+                    int len=dp.getLength();
                     
-                    byte[] newdata=new byte[offset+len+42];
+                    byte[] newdata=new byte[offset+len+len];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
                     System.out.println("--------------> ");

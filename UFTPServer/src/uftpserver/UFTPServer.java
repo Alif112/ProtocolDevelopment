@@ -18,6 +18,7 @@ public class UFTPServer {
     public static int countsend=0;
     public static int countreceive=0;
     
+    static UFTPImplementation uftp= new UFTPImplementation();
     /**
      * @param args the command line arguments
      */
@@ -48,23 +49,46 @@ public class UFTPServer {
                     String message=new String(dp.getData(),0,dp.getLength());
 //                    System.out.println(message);
 //                    System.out.println(message.length()+" Received at server--> "+message);
+                    int offset=0;
+                    int ll=uftp.decodePacket(b, 0, dp.getLength());
+                    System.out.println("==============================================> "+ll);
+                    String ack=Utility.bytesToHex(b, 0, ll);
+
+                    System.out.println("==========>"+ack.length());
+                    System.out.println(ack);
+                    
+                    
                     countreceive+=1;
                     System.out.println("Received at server---------> "+countreceive);
-                   int len=200;
-                    byte[] data = new byte[len];
-                    data=Utility.getRandomData(data, len);
-                    String hexdata=Utility.bytesToHex(data);
-                    data=Utility.getRandomData(data, len);
-                    String hexdata1=Utility.bytesToHex(data);
-                    data=Utility.getRandomData(data, len);
-                    String hexdata2=Utility.bytesToHex(data);
+//                   int len=200;
+//                    byte[] data = new byte[len];
+//                    data=Utility.getRandomData(data, len);
+//                    String hexdata=Utility.bytesToHex(data);
+//                    data=Utility.getRandomData(data, len);
+//                    String hexdata1=Utility.bytesToHex(data);
+//                    data=Utility.getRandomData(data, len);
+//                    String hexdata2=Utility.bytesToHex(data);
+//                    
+//                    int idint=i%255+1;
+//                    byte bid=(byte) idint;
+//                    String id=Utility.byteToHex(bid);
+////                    System.out.println("id ----> "+id );
+//                    
+//                    String m="310800d48987cb7e0a000001e6050519080000010100000100000000"+hexdata;
+                    int len=ll;
+                    byte[] newdata=new byte[offset+len+61];
+                    int len2=Utility.getRandomData(newdata, offset, len);
+                    String m1=Utility.bytesToHex(newdata,offset,len);
+                    System.out.println("--------------> ");
+                    System.out.println(m1);
+                    InetAddress ia=InetAddress.getByName("191.101.189.93");
+                    InetAddress sia=InetAddress.getByName("10.0.0.2");
                     
-                    int idint=i%255+1;
-                    byte bid=(byte) idint;
-                    String id=Utility.byteToHex(bid);
-//                    System.out.println("id ----> "+id );
+                    len2=uftp.createPacket(newdata, offset, len,ia,sia);
+//                    System.out.println("================================>          "+ len2);
+                   String m=Utility.bytesToHex(newdata,offset,len2);
+                   System.out.println(m);
                     
-                    String m="310800d48987cb7e0a000001e6050519080000010100000100000000"+hexdata;
 
                     byte[] b1=Utility.hexStringToByteArray(m);
 

@@ -136,7 +136,4 @@ public class CIGIImplementation {
         return len-27;
     }
     
-    
-    
-    
 }

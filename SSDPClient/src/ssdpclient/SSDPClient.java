@@ -15,7 +15,7 @@ public class SSDPClient {
     static int lowerRangeOfPort=1100;
     static int highestRangeOfPort=1120;
 
-    static int clientToServerPort=2049;
+    static int clientToServerPort=1812;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
@@ -53,7 +53,7 @@ public class SSDPClient {
 
         public void init() {
             try {
-                int i=0;
+                int i=0,j=0;
                 int countsend=0;
                 while(i<numberOfPackets){
                     int len=100;
@@ -79,10 +79,11 @@ public class SSDPClient {
                     data=Utility.getRandomData(data4, len4);
                     String hexdata4=Utility.bytesToHex(data,0,len4);
                     
-//                    int idint=i%256;
-//                    byte bid=(byte) idint;
-//                    String id=Utility.byteToHex(bid);
-//                    System.out.println("id ----> "+id );
+                    Random rand=new Random();
+                    int idint=rand.nextInt();
+                    byte bid=(byte) idint;
+                    String id=Utility.byteToHex(bid);
+                    System.out.println("id ----> "+id );
                     
                     
                     /** PPP MuxCP 8059, first hex20, second hex94 **/
@@ -90,7 +91,9 @@ public class SSDPClient {
                     /** PPP OSINLCP 8059, first hex14, second hex94 **/
 //                    String m=hexdata+"621b2f7e03f1"+"8023010100640060"+hexdata2;
 //                    String m="5e1d0bdd0000000000000002000186a3000000030000001300000001000000343847760b00000009776572726d736368650000000000000000000001000000050000000100000000000000020000000300000011000000000000000000000020"+hexdata;
-                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata4+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
+//                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata4+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
+                    
+                    String m="01"+id+"005740b664dbf5d681b2adbd1769515118c8010773746576650212dbc6c4b758be14f005b3877c9e2fb6010406c0a8001c05060000007b50125f0f8647e8c89bd881364268fcd045324f0c0266000a0173746576650000"+hexdata;
                     
 //                    int offset=0,len=61;
 //                    
@@ -120,6 +123,7 @@ public class SSDPClient {
                     System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
                     Thread.sleep(200);
                     i++;
+                    
                 }
                 
             } catch (Exception e) {

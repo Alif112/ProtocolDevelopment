@@ -11,7 +11,7 @@ import java.util.Random;
 import sun.audio.AudioPlayer;
 
 public class SSDPServer {
-    static int ServerPort=2049;
+    static int ServerPort=1812;
     public static int countsend=0;
     public static int countreceive=0;
     
@@ -73,11 +73,11 @@ public class SSDPServer {
                     data=Utility.getRandomData(data3, len2);
                     String hexdata3=Utility.bytesToHex(data3);
                     
-                    
-//                    int idint=i%256;
-//                    byte bid=(byte) idint;
-//                    String id=Utility.byteToHex(bid);
-//                    System.out.println("id ----> "+id );
+                    Random rand=new Random();
+                    int idint=rand.nextInt();
+                    byte bid=(byte) idint;
+                    String id=Utility.byteToHex(bid);
+                    System.out.println("id ----> "+id );
                     
                     
                     /** PPP MuxCP 8059, first hex20, second hex94 **/
@@ -85,8 +85,9 @@ public class SSDPServer {
                     /** PPP OSINLCP 8059, first hex14, second hex94 **/
 //                    String m=hexdata+"621b2f7e03f1"+"8023010100640060"+hexdata2;
 //                    String m="5e1d0bdd0000000000000002000186a3000000030000001300000001000000343847760b00000009776572726d736368650000000000000000000001000000050000000100000000000000020000000300000011000000000000000000000020"+hexdata;
-                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata2+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
-                    
+//                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata2+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
+                    /** RADIUS protocol**/
+                    String m="01"+id+"005740b664dbf5d681b2adbd1769515118c8010773746576650212dbc6c4b758be14f005b3877c9e2fb6010406c0a8001c05060000007b50125f0f8647e8c89bd881364268fcd045324f0c0266000a017374657665";
                     
                   
                     

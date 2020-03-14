@@ -91,13 +91,14 @@ public class CIGIServer {
 //                    
                     
 //                    String m="01100200400000001a2c7a6w000000002c180018"+"00000000"+      "40"+s+hexdata1 +   "40"+latitude  +"2b30"+hexdata;
-                    int offset=0,len=dp.getLength();
+                    int offset=0,len=ll;
                    byte[] newdata=new byte[offset+len+61];
                     
                     int len2=cigi.createPacket(b, offset, len);
                     System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(b,offset,len2);
                    System.out.println(m);
+                   System.out.println("----------------------length of data-------> "+m.length());
                     
                     byte[] b1=Utility.hexStringToByteArray(m);
               
