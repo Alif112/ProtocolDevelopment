@@ -16,3 +16,15 @@
 /MGCPClient/build/
 /MGCPServer/build/
 /MGCPServer/dist/
+/CLDAPClient/nbproject/private/
+/CLDAPServer/nbproject/private/
+/CLDAPServer/build/
+/CLDAPServer/dist/
+/CLDAPClient/build/
+/CLDAPClient/dist/
+/L2TPClient/nbproject/private/
+/L2TPServer/nbproject/private/
+/L2TPClient/dist/
+/L2TPClient/build/
+/L2TPServer/build/
+/L2TPServer/dist/

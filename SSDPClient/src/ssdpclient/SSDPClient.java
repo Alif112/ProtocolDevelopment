@@ -15,7 +15,7 @@ public class SSDPClient {
     static int lowerRangeOfPort=1100;
     static int highestRangeOfPort=1120;
 
-    static int clientToServerPort=1812;
+    static int clientToServerPort=1701;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
@@ -30,18 +30,16 @@ public class SSDPClient {
         
         int numberOfSockets=10;
         int i=0;
-        
+        System.out.println("Udp SSDP Client Started...........");
         while(true){
-            System.out.println("Udp SSDP Client Started...........");
+            
             DatagramSocket ds=new DatagramSocket();
-
             MySender mySender=new MySender(ds);
             mySender.init();
             Thread myReceiver=new MyReceiver(ds);
             myReceiver.start();
             i++;
         }
-
        
     }
 
@@ -78,12 +76,12 @@ public class SSDPClient {
                     byte[] data4 = new byte[len4];
                     data=Utility.getRandomData(data4, len4);
                     String hexdata4=Utility.bytesToHex(data,0,len4);
-                    
-                    Random rand=new Random();
-                    int idint=rand.nextInt();
-                    byte bid=(byte) idint;
-                    String id=Utility.byteToHex(bid);
-                    System.out.println("id ----> "+id );
+//                    
+//                    Random rand=new Random();
+//                    int idint=rand.nextInt();
+//                    byte bid=(byte) idint;
+//                    String id=Utility.byteToHex(bid);
+//                    System.out.println("id ----> "+id );
                     
                     
                     /** PPP MuxCP 8059, first hex20, second hex94 **/
@@ -93,7 +91,14 @@ public class SSDPClient {
 //                    String m="5e1d0bdd0000000000000002000186a3000000030000001300000001000000343847760b00000009776572726d736368650000000000000000000001000000050000000100000000000000020000000300000011000000000000000000000020"+hexdata;
 //                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata4+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
                     
-                    String m="01"+id+"005740b664dbf5d681b2adbd1769515118c8010773746576650212dbc6c4b758be14f005b3877c9e2fb6010406c0a8001c05060000007b50125f0f8647e8c89bd881364268fcd045324f0c0266000a0173746576650000"+hexdata;
+//                    String m="3025020101632004000a01020a0100020100020100010100870b6f626a656374436c6173733000";
+//                    String m="3081a90201016381a304818264633d"+hexdata+"0a01020a0100020100020100010100870b6f626a656374436c6173733000";
+                    /**working cldap**/
+//                    String m="3026020101632104000a01020a0100020100020100010100a50c0403756964040541646d696e30000000"+hexdata;
+                    
+//                    String m="300c0201016007020103040080000000"+hexdata;
+                    String m="c80200764a3200000000000180080000000000028008000000020100800a00000003000000000008000000061130800900000007367065001900000008436973636f2053797374656d732c20496e632e80080000000905f780080000000a03e880160000000b508154fa7878436c331b3a2b11431373";
+                    
                     
 //                    int offset=0,len=61;
 //                    
@@ -111,6 +116,7 @@ public class SSDPClient {
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
                     InetAddress ia=InetAddress.getByName("191.96.12.12");
+//                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
                     ds.send(dp);
@@ -121,7 +127,7 @@ public class SSDPClient {
                     System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
                     System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(200);
+                    Thread.sleep(150);
                     i++;
                     
                 }

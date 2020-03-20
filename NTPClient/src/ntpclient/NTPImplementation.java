@@ -28,13 +28,6 @@ public class NTPImplementation {
     }
     
     
-    public NTPImplementation(int i){
-        packetStartFlag=(byte) 0x1a;
-        peerClock=0x02;
-        peerPollingInterval=0x0a;
-    }
-    
-    
     public int createPacket(byte [] data, int offset, int len){
         if(data.length <= offset + len + 6)
             return len;
@@ -52,7 +45,6 @@ public class NTPImplementation {
     }
     
     public int decodePacket(byte [] data, int offset, int len){
-        peerClockPrecision=data[offset+3];
         
         for(int i=offset;i<offset+len;i++){
             data[i]=data[i+6];

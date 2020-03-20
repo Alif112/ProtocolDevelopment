@@ -13,7 +13,7 @@ public class NTPServer {
     static int ServerPort=123;
     public static int countsend=0;
     public static int countreceive=0;
-    static NTPImplementation ntp=new NTPImplementation(1);
+    static NTPImplementation ntp=new NTPImplementation();
     
     
     /**

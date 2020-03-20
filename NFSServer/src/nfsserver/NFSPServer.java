@@ -11,7 +11,7 @@ import java.util.Random;
 import sun.audio.AudioPlayer;
 
 public class NFSPServer {
-    static int ServerPort=2049;
+    static int ServerPort=2050;
     public static int countsend=0;
     public static int countreceive=0;
     
@@ -54,7 +54,7 @@ public class NFSPServer {
                     
                             
 //                    System.out.println("==========>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
                     
                     
@@ -97,7 +97,7 @@ public class NFSPServer {
                    byte[] newdata=new byte[offset+len+len];
                     
                     int len2=nfs.createPacket(b, offset, len);
-                    System.out.println("================================>          "+ len2);
+//                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(b,offset,len2);
 //                   System.out.println(m);
 //                    

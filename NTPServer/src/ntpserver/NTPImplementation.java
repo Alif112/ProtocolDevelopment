@@ -19,14 +19,7 @@ public class NTPImplementation {
     public byte peerPollingInterval;
     public byte peerClockPrecision;
     
-    public NTPImplementation() {
-        packetStartFlag=(byte) 0xd9;
-        peerClock=0x20;
-        peerPollingInterval=0x0a;
-        peerClockPrecision=(byte) Functions.random.nextInt(128);
-        
-    }
-    public NTPImplementation(int i){
+    public NTPImplementation(){
         packetStartFlag=(byte) 0x1a;
         peerClock=0x02;
         peerPollingInterval=0x0a;
@@ -43,8 +36,6 @@ public class NTPImplementation {
         data[index++]=peerPollingInterval;
         data[index++]=peerClockPrecision;
         data[index++]=0x00; data[index++]=0x00;
-        
-         peerClockPrecision=(byte) Functions.random.nextInt(128);
         
         return index+len;
     }

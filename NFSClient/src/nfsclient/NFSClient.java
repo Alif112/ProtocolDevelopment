@@ -15,7 +15,7 @@ public class NFSClient {
     static int lowerRangeOfPort=1100;
     static int highestRangeOfPort=1120;
 
-    static int clientToServerPort=2049;
+    static int clientToServerPort=2050;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
@@ -87,13 +87,13 @@ public class NFSClient {
 ////                    String m="5e1d0bdd0000000000000002000186a3000000030000001300000001000000343847760b00000009776572726d736368650000000000000000000001000000050000000100000000000000020000000300000011000000000000000000000020"+hexdata;
 //                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata2+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
 //                    
-                      int offset=0,len=300;
+                      int offset=0,len=100;
 //                    
                     byte[] newdata=new byte[offset+len+len];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     
                     len2=nfs.createPacket(newdata, offset, len);
 //                    System.out.println("================================>          "+ len2);
@@ -113,7 +113,7 @@ public class NFSClient {
                     System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
                     System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(300);
+                    Thread.sleep(100);
                     i++;
                 }
                 
