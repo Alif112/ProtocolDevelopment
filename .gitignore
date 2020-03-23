@@ -28,3 +28,9 @@
 /L2TPClient/build/
 /L2TPServer/build/
 /L2TPServer/dist/
+/KerberosServer/nbproject/private/
+/KerberosClient/nbproject/private/
+/KerberosServer/dist/
+/KerberosServer/build/
+/KerberosClient/build/
+/KerberosClient/dist/

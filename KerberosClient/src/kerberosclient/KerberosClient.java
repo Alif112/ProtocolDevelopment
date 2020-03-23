@@ -1,4 +1,4 @@
-package l2tpclient;
+package kerberosclient;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -6,8 +6,8 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class L2TPClient {
-    static int clientToServerPort=1701;
+public class KerberosClient {
+    static int clientToServerPort=88;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
@@ -63,37 +63,20 @@ public class L2TPClient {
 //                    byte bid=(byte) idint;
 //                    String id=Utility.byteToHex(bid);
 //                    System.out.println("id ----> "+id );
-//                    String m="c802000c4a32000000020004000000"+hexdata;
+                    String m="6c820203308201ffa103020105a20302010ca38201923082018e3082018aa103020101a28201810482017d6e82017930820175a003020105a10302010ea20703050000000000a381e26181df3081dca003020105a1091b07554d522e454455a21c301aa003020100a11330111b066b72627467741b07554d522e454455a381ab3081a8a003020101a103020172a2819b0481986cb05fd9ad09ae9c62a8f8e73b57d6ec2fe816e9b42f0f6e301b5b6dcd1434d229039f43210a08ea1e7fcffb5d3fb0d57a6da17b80f49e9938b8e16d0195fe894cd16b202fa9b6e403f21f64192d68eca1a623f3de3355be9160f8685d4139391fbfc484cca1d23f660d634a477ca7ed58ab91437f050e68f9eb7822f91df670929bda3ab4874042f6fb7bc7e87ca8af45bfbfdeeddb8873a47b3079a003020101a272047090f8782d33c4399ff546a6942b5f7e1cb5fb0e72efe6e04a702a6481550aafe4feb08e79921e15dbefb59a7116f43c595445b80ef5ea6f5632a8e6615d5e54670c90691bc3d3ed77c7a3c746ecdbeb10c7e42cf454c33208de9f68924fe1c13f478625be6f80f6465d6a55b62daf9227a45d305ba00703050040000000a2091b07554d522e454455a310300ea003020100a10730051b03616673a511180f31393939313231313231343830335aa7060204382b3993a8053003020101a911300f300da003020102a106040483972015";
                     
-//                    String m="c802000c"+hexdata2+"000000"+hexdata;
-//                    String m="c8020070"+hexdata2+"8066"+hexdata;
-                    
-//                    String m="c8020066"+hexdata2;
-//                    int smallLen=8;
-//                    byte[] data3 = new byte[smallLen];
-//                    for(int ss=0;ss<9;ss++){
-//                        data3=Utility.getRandomData(data3, smallLen);
-//                        String hexdata3=Utility.bytesToHex(data3);
-//                        m+="800a"+hexdata3;
-//                    }
-
-//                    String m="c802000c"+hexdata2;
-//                    String m="c80200764a3200000000000180080000000000028008000000020100800a00000003000000000008000000061130800900000007367065001900000008436973636f2053797374656d732c20496e632e80080000000905f780080000000a03e880160000000b508154fa7878436c331b3a2b11431373";
-//                    working
-//                    String m="c8020014"+hexdata2+"800865475a2d6e92";
-                    
-                    int offset=0;
-                    len=100;
+//                    int offset=0;
+//                    len=100;
+////                    
+//                    byte[] newdata=new byte[offset+len+100];
+//                    int len2=Utility.getRandomData(newdata, offset, len);
+//                    String m1=Utility.bytesToHex(newdata,offset,len);
+////                    System.out.println("--------------> ");
+////                    System.out.println(m1);
 //                    
-                    byte[] newdata=new byte[offset+len+100];
-                    int len2=Utility.getRandomData(newdata, offset, len);
-                    String m1=Utility.bytesToHex(newdata,offset,len);
-//                    System.out.println("--------------> ");
-//                    System.out.println(m1);
-                    
-                    len2=l2tp.createPacket(newdata, offset, len);
-//                    System.out.println("================================>          "+ len2);
-                   String m=Utility.bytesToHex(newdata,offset,len2);
+//                    len2=l2tp.createPacket(newdata, offset, len);
+////                    System.out.println("================================>          "+ len2);
+//                   String m=Utility.bytesToHex(newdata,offset,len2);
 //                   System.out.println(m);
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
@@ -110,7 +93,7 @@ public class L2TPClient {
                     System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
                     System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(100);
+                    Thread.sleep(400);
                     i++;
                     
                 }

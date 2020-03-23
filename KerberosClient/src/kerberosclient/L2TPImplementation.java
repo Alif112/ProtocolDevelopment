@@ -1,5 +1,5 @@
 
-package l2tpclient;
+package kerberosclient;
 
 public class L2TPImplementation {
     public int protocolLen;
