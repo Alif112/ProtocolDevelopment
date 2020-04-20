@@ -42,7 +42,7 @@ class Functions {
         return;
     }
 
-    public static int byteArrayToint(byte[] array, int startIndex) {
+    public static int putInt(byte[] array, int startIndex) {
         return ((array[startIndex] & 0xff) << 8) | (array[startIndex + 1] & 0xff);
     }
     

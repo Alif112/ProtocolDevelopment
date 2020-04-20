@@ -1,6 +1,5 @@
 package nfsclient;
 
-
 public class NFSImplementation {
     public long programNFS;
     public long credentialLen;
@@ -70,11 +69,8 @@ public class NFSImplementation {
         return index+len-60;
     }
     
+
     public int decodePacket(byte [] data, int offset, int len){
-        for(int i=offset;i<offset+4;i++){
-            data[i]=data[i];
-        }
-        
         for(int i=offset;i<offset+4;i++){
             data[i+4]=data[i+24];
         }
@@ -84,7 +80,6 @@ public class NFSImplementation {
        
         for(int i=offset;i<offset+len+32;i++){
             data[i+60]=data[i+96];
-            
         }
 
         return len-36;

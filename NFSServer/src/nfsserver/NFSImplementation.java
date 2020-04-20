@@ -79,9 +79,7 @@ public class NFSImplementation {
     }
     
     public int decodePacket(byte [] data, int offset, int len){
-        for(int i=offset;i<offset+4;i++){
-            data[i]=data[i];
-        }
+
         
         for(int i=offset;i<offset+4;i++){
             data[i+4]=data[i+24];

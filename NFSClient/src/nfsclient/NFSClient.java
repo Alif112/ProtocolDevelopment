@@ -3,13 +3,9 @@ package nfsclient;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.IDN;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Random;
 
 public class NFSClient {
     static int lowerRangeOfPort=1100;
@@ -87,13 +83,13 @@ public class NFSClient {
 ////                    String m="5e1d0bdd0000000000000002000186a3000000030000001300000001000000343847760b00000009776572726d736368650000000000000000000001000000050000000100000000000000020000000300000011000000000000000000000020"+hexdata;
 //                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata2+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
 //                    
-                      int offset=0,len=100;
+                      int offset=0,len=64;
 //                    
                     byte[] newdata=new byte[offset+len+len];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-//                    System.out.println("--------------> ");
-//                    System.out.println(m1);
+                    System.out.println("--------------> ");
+                    System.out.println(m1);
                     
                     len2=nfs.createPacket(newdata, offset, len);
 //                    System.out.println("================================>          "+ len2);
@@ -113,7 +109,7 @@ public class NFSClient {
                     System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
                     System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(100);
+                    Thread.sleep(150);
                     i++;
                 }
                 

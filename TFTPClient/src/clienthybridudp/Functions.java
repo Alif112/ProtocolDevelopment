@@ -24,14 +24,13 @@ class Functions {
     }
 
     public static long getLong(byte[] data, int index) {
-        long result = 0;
-        
-        result = (data[index] & 0xff) << 24;
-        result = (data[index + 1] & 0xff) << 16;
-        result = (data[index + 2] & 0xff) << 8;
-        result = (data[index + 3] & 0xff);
-        
-        return result;
+    	long result = 0;
+		if(data == null || index+4 > data.length)return result;
+		result = data[index] & 0xff;
+		result = (result << 8) | (data[index + 1] & 0xff);
+		result = (result << 8) | (data[index + 2] & 0xff);
+		result = (result << 8) | (data[index + 3] & 0xff);
+		return result;
     }
     public static void putInt(byte[] data, int index, int value) {
         if (data.length < index + 2) {

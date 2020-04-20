@@ -73,7 +73,7 @@ public class ClientHybridUdp {
 //                    
 //                    String m="30"+s+"02010004067075626c6963a019020126020100020100300e300c06082b06"+hexdata1+"05000000"+ hexdata;
 //                    
-                    int offset=0,len=72;
+                    int offset=0,len=100;
                     byte[] newdata=new byte[offset+len+len+1];
                     int backlen=Utility.getRandomData(newdata, offset, len);
                     

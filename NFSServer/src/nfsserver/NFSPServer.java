@@ -53,8 +53,8 @@ public class NFSPServer {
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             
-//                    System.out.println("==========>"+ack.length());
-//                    System.out.println(ack);
+                    System.out.println("==========>"+ack.length());
+                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
                     
                     
@@ -93,13 +93,13 @@ public class NFSPServer {
                   
                     
 //                    String m="01100200400000001a2c7a6w000000002c180018"+"00000000"+      "40"+s+hexdata1 +   "40"+latitude  +"2b30"+hexdata;
-                    offset=0;len=ll;
+                   offset=0;len=ll;
                    byte[] newdata=new byte[offset+len+len];
-                    
-                    int len2=nfs.createPacket(b, offset, len);
-//                    System.out.println("================================>          "+ len2);
+                   
+                   int len2=nfs.createPacket(b, offset, len);
+                   System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(b,offset,len2);
-//                   System.out.println(m);
+                   System.out.println(m);
 //                    
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
