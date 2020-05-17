@@ -48,12 +48,12 @@ public class MOUNTServer {
 //                    
 //                     
                     int ll=mount.decodePacket(b, 0, dp.getLength());
-//                    System.out.println("==============================================> "+ll);
+                    System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             
                     System.out.println("==========>"+ack.length());
-//                    System.out.println(ack);
+                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
                     
                     int len=100;
@@ -76,16 +76,16 @@ public class MOUNTServer {
                     
                     
                     int offset=0;
-                    len=64;
+                    len=100;
                     
-                    byte[] newdata=new byte[offset+len+100];
+                    byte[] newdata=new byte[offset+len+200];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-//                    System.out.println("--------------> ");
+//                    System.out.println("--------------> "+len2);
 //                    System.out.println(m1);
                     
                     len2=mount.createPacket(newdata, offset, len);
-                    System.out.println("================================>          "+ len2);
+//                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(newdata,offset,len2);
 //                   System.out.println(m);
                     

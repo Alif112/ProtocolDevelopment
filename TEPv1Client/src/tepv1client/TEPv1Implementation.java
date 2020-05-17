@@ -111,10 +111,10 @@ public class TEPv1Implementation {
     
     public int decodePacket(byte [] data, int offset, int len){
         
-        for(int i=offset;i<offset+16;i++) data[i]=data[i+8];
-        for(int i=offset+16;i<offset+len-21;i++)data[i]=data[i+19];
+        for(int i=offset;i<offset+8;i++) data[i]=data[i+117];
+        for(int i=offset+8;i<offset+len-137;i++)data[i]=data[i+137];
         
-        return len-21;
+        return len-137;
     }
     
 }

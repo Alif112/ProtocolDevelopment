@@ -96,18 +96,18 @@ public class MOUNTClient {
 //                    
 //                    
                     int offset=0;
-                    len=64;
+                    len=100;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-//                    System.out.println("--------------> ");
-//                    System.out.println(m1);
+                    System.out.println("--------------> ");
+                    System.out.println(m1);
                     
                     len2=mount.createPacket(newdata, offset, len);
-//                    System.out.println("================================>          "+ len2);
+                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(newdata,offset,len2);
-//                   System.out.println(m);
+                   System.out.println(m);
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
@@ -165,9 +165,9 @@ public class MOUNTClient {
                     countreceive+=1;
 //                    String received= new String(dp1.getData(),0,b1.length);
                     int ll=mount.decodePacket(b1, 0, dp1.getLength());
-//                    System.out.println("==============================================> "+ll);
+                    System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b1, 0, ll);                   
-//                    System.out.println(ack);
+                    System.out.println(ack);
                     
                     
 //                    System.out.println("--------received-----");

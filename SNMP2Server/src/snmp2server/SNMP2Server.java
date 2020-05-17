@@ -6,8 +6,6 @@ import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.Random;
-import sun.audio.AudioPlayer;
 
 public class SNMP2Server {
     static int ServerPort=161;
@@ -26,7 +24,7 @@ public class SNMP2Server {
     }
 
     private static class MyThread extends Thread {
-        BFDImplementation bfd=new BFDImplementation();
+        SNMP2Implementation snmp2=new SNMP2Implementation();
         public MyThread() {
         }
 
@@ -47,9 +45,9 @@ public class SNMP2Server {
                     
 //                    
 //                     
-//                    int ll=bfd.decodePacket(b, 0, dp.getLength());
-//                    System.out.println("==============================================> "+ll);
-//                    String ack=Utility.bytesToHex(b, 0, ll);
+                    int ll=snmp2.decodePacket(b, 0, dp.getLength());
+                    System.out.println("==============================================> "+ll);
+                    String ack=Utility.bytesToHex(b, 0, ll);
                     
 //                            
 //                    System.out.println("==========>"+ack.length());
@@ -68,23 +66,25 @@ public class SNMP2Server {
 //                    String id=Utility.byteToHex(bid);
 //                    System.out.println("id ----> "+id );
                     
-                    String m="3081c90201033011020430f6f3d7020300ffe304010702010304373035040d80001f888059dc486145a2632202010802020ab90405706970706f040c87b6e330d3123d6f23bdb5f704080000000103d5321c0478e7ecebfbc75eecd42d25815a8d3b7d293b8a42d9002a86fa10b80bf1f1ca53aada57d520644c254f02331f1936831692559dea670efec3055c92721879e6bb3032dd0d040b4c29d17b08813974f4ddedb08e160719bb00e8f7a763a2ffcdd2d4b88169b50e012681dded3ae85ae6d7002c23274189aaa347"
-                            + "";
+//                     String m="3082013402010004067075626c6963"
+//                            + "a282012502022825020100020100308201173082011306082b0601020101050044820105022573000"
+//                            + "080808080808080808080808080808080808080808080808080808080808080f18080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080802573008080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080808080a08080808080808080808080808080808080808080808080808080808080808080808080";
+  
                     
                     
-//                    int offset=0;
-//                    len=200;
-//                    
-//                    byte[] newdata=new byte[offset+len+30];
-//                    int len2=Utility.getRandomData(newdata, offset, len);
-//                    String m1=Utility.bytesToHex(newdata,offset,len);
-////                    System.out.println("--------------> ");
-////                    System.out.println(m1);
-//                    
-//                    len2=bfd.createPacket(newdata, offset, len);
-////                    System.out.println("================================>          "+ len2);
-//                   String m=Utility.bytesToHex(newdata,offset,len2);
-//                   System.out.println(m);
+                    int offset=0;
+                    len=100;
+                    
+                    byte[] newdata=new byte[offset+len+100];
+                    int len2=Utility.getRandomData(newdata, offset, len);
+                    String m1=Utility.bytesToHex(newdata,offset,len);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
+                    
+                    len2=snmp2.createPacket(newdata, offset, len);
+                    String m=Utility.bytesToHex(newdata,offset,len2);
+//                    System.out.println("================================>          "+ len2);
+//                    System.out.println(m);
 //                    
                     byte[] b1=Utility.hexStringToByteArray(m);
                     

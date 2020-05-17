@@ -94,7 +94,7 @@ public class LoWPANClient {
 //                            + "5521";
                            
                     int offset=0;
-                    len=120;
+                    len=100;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
@@ -103,9 +103,9 @@ public class LoWPANClient {
                     System.out.println(m1);
                     
                     len2=lowpan.createPacket(newdata, offset, len);
-//                    System.out.println("================================>          "+ len2);
+                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(newdata,offset,len2);
-//                   System.out.println(m);
+                   System.out.println(m);
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     

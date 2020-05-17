@@ -48,7 +48,7 @@ public class ICMPv6Server {
 //                    
 //                     
                     int ll=icmpv6.decodePacket(b, 0, dp.getLength());
-//                    System.out.println("==============================================> "+ll);
+                    System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             

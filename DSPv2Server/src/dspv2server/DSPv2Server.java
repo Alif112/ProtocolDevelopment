@@ -48,7 +48,7 @@ public class DSPv2Server {
 //                    
 //                     
                     int ll=dspv2.decodePacket(b, 0, dp.getLength());
-//                    System.out.println("==============================================> "+ll);
+                    System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             
@@ -77,7 +77,7 @@ public class DSPv2Server {
                     
                     
                     int offset=0;
-                    len=150;
+                    len=100;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);

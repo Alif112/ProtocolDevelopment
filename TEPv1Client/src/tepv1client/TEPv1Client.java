@@ -101,7 +101,7 @@ public class TEPv1Client {
                     
                     
                     int offset=0;
-                    len=100;
+                    len=120;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
@@ -169,10 +169,10 @@ public class TEPv1Client {
                     ds.receive(dp1);
                     countreceive+=1;
 //                    String received= new String(dp1.getData(),0,b1.length);
-//                    int ll=tepv1.decodePacket(b1, 0, dp1.getLength());
+                    int ll=tepv1.decodePacket(b1, 0, dp1.getLength());
 //                    System.out.println("==============================================> "+ll);
-//                    String ack=Utility.bytesToHex(b1, 0, ll);                   
-//                    System.out.println(ack);
+                    String ack=Utility.bytesToHex(b1, 0, ll);                   
+                    System.out.println(ack);
                     
                     
 //                    System.out.println("--------received-----");

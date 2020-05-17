@@ -102,7 +102,7 @@ public class MOUNTImplementation {
     public int decodePacket(byte [] data, int offset, int len){
         for(int i=offset;i<offset+len-28;i++) data[i]=data[i+28];
         
-        return len-36;
+        return len-28;
     }
     
 }

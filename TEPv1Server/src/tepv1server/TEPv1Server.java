@@ -48,15 +48,15 @@ public class TEPv1Server {
 //                    
 //                     
                     int ll=dspv2.decodePacket(b, 0, dp.getLength());
-//                    System.out.println("==============================================> "+ll);
+                    System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             
-                    System.out.println("=====received len=====>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println("=====received len=====>"+ack.length());
+//                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
                     
-                    int len=200;
+                    int len=50;
                     byte[] data = new byte[len];
                     data=Utility.getRandomData(data, len);
                     String hexdata=Utility.bytesToHex(data);
@@ -70,31 +70,31 @@ public class TEPv1Server {
 
 //                    tepv1
                     
-                    String m="810c0112"
-                            + "825004"
-                            + "808001"
-                            + "d47a85e073484b94239217a9d3957f920b637d659212f49387c64e68858777e8"
-                            + "b9d5ddc8ebd19697d7b780e5e3e3daae7363dbf23bf228f99a8bc05012748166"
-                            + "f49c8ba80e1649e69e96e9f0268680d9682ba36093f7117e78fbc27b09255492"
-                            + "0001890701007f03bffbff200e869b1d69c26c"
-                            + "030101008080030101"
-                            + "b401ffffffff01000100"
-                            + "0000"+hexdata;
+//                    String m="810c0112"
+//                            + "825004"
+//                            + "808001"
+//                            + "d47a85e073484b94239217a9d3957f920b637d659212f49387c64e68858777e8"
+//                            + "b9d5ddc8ebd19697d7b780e5e3e3daae7363dbf23bf228f99a8bc05012748166"
+//                            + "f49c8ba80e1649e69e96e9f0268680d9682ba36093f7117e78fbc27b09255492"
+//                            + "0001890701007f03bffbff200e869b1d69c26c"
+//                            + "030101008080030101"
+//                            + "b401ffffffff01000100"
+//                            + "0000"+hexdata;
                    
                     
                     
-//                    int offset=0;
-//                    len=150;
-//                    
-//                    byte[] newdata=new byte[offset+len+100];
-//                    int len2=Utility.getRandomData(newdata, offset, len);
-//                    String m1=Utility.bytesToHex(newdata,offset,len);
-////                    System.out.println("--------------> ");
-////                    System.out.println(m1);
-//                    
-//                    len2=dspv2.createPacket(newdata, offset, len);
-////                    System.out.println("================================>          "+ len2);
-//                   String m=Utility.bytesToHex(newdata,offset,len2);
+                    int offset=0;
+                    len=120;
+                    
+                    byte[] newdata=new byte[offset+len+200];
+                    int len2=Utility.getRandomData(newdata, offset, len);
+                    String m1=Utility.bytesToHex(newdata,offset,len);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
+                    
+                    len2=dspv2.createPacket(newdata, offset, len);
+//                    System.out.println("================================>          "+ len2);
+                   String m=Utility.bytesToHex(newdata,offset,len2);
 //                   System.out.println(m);
                     
                     byte[] b1=Utility.hexStringToByteArray(m);

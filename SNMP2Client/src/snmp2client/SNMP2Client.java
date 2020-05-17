@@ -14,7 +14,7 @@ public class SNMP2Client {
     static int totalReceive=0;
     static long receiverTime=(long) 1e9;
     
-    static BFDImplementation bfd=new BFDImplementation();
+    static SNMP2Implementation snmp2=new SNMP2Implementation();
     
     /**
      * @param args the command line arguments
@@ -85,26 +85,29 @@ public class SNMP2Client {
 //                    String id=Utility.byteToHex(bid);
 //                    System.out.println("id ----> "+id );
                     
-                    String m="3081c90201033011020430f6f3d7020300ffe304010702010304373035040d80001f888059dc486145a2632202010802020ab90405706970706f040c87b6e330d3123d6f23bdb5f704080000000103d5321c"
-                            + "8064"
-//                            + "e7ecebfbc75eecd42d25815a8d3b7d293b8a42d9002a86fa10b80bf1f1ca53aada57d520644c254f02331f1936831692559dea670efec3055c92721879e6bb3032dd0d040b4c29d17b08813974f4ddedb08e160719bb00e8f7a763a2ffcdd2d4b88169b50e012681dded3ae85ae6d7002c23274189aaa347"
-                            + ""+hexdata;
+//                    String m="30820093"
+//                            + "02010004067075626c6963"
+//                            + "a3820084"
+//                            + "0202282502010002010030820076"
+//                            + "30820072"
+//                            + "06082b0601020101050044820064"+hexdata;
                     
                     
-//                    int offset=0;
-//                    len=248;
-//                    
-//                    byte[] newdata=new byte[offset+len+100];
-//                    int len2=Utility.getRandomData(newdata, offset, len);
-//                    String m1=Utility.bytesToHex(newdata,offset,len);
-////                    System.out.println("--------------> ");
-////                    System.out.println(m1);
-//                    
-//                    len2=bfd.createPacket(newdata, offset, len);
-////                    System.out.println("================================>          "+ len2);
-//                   String m=Utility.bytesToHex(newdata,offset,len2);
-//                   System.out.println(m);
-//                   
+                    
+                    int offset=0;
+                    len=200;
+                    
+                    byte[] newdata=new byte[offset+len+100];
+                    int len2=Utility.getRandomData(newdata, offset, len);
+                    String m1=Utility.bytesToHex(newdata,offset,len);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
+                    
+                    len2=snmp2.createPacket(newdata, offset, len);
+                    String m=Utility.bytesToHex(newdata,offset,len2);
+//                    System.out.println("================================>          "+ len2);
+//                    System.out.println(m);
+                  
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
                     InetAddress ia=InetAddress.getByName("191.96.12.12");
@@ -119,7 +122,7 @@ public class SNMP2Client {
                     System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
                     System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(300);
+                    Thread.sleep(200);
                     i++;
                     
                 }
@@ -160,9 +163,9 @@ public class SNMP2Client {
                     ds.receive(dp1);
                     countreceive+=1;
 //                    String received= new String(dp1.getData(),0,b1.length);
-//                    int ll=bfd.decodePacket(b1, 0, dp1.getLength());
-//                    System.out.println("==============================================> "+ll);
-//                    String ack=Utility.bytesToHex(b1, 0, ll);                   
+                    int ll=snmp2.decodePacket(b1, 0, dp1.getLength());
+                    System.out.println("==============================================> "+ll);
+                    String ack=Utility.bytesToHex(b1, 0, ll);                   
 //                    System.out.println(ack);
                     
                     

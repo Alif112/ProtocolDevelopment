@@ -52,8 +52,8 @@ public class LoWPANServer {
                     String ack=Utility.bytesToHex(b, 0, ll);
 ////                    
 ////                            
-                    System.out.println("==========>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println("==========>"+ack.length());
+//                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
                     
                     int len=100;
@@ -74,13 +74,13 @@ public class LoWPANServer {
 //                           
                     
                     int offset=0;
-                    len=80;
+                    len=100;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     
                     len2=mount.createPacket(newdata, offset, len);
 //                    System.out.println("================================>          "+ len2);
