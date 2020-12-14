@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 public class SNMP2Server {
+    static String ip="72.249.184.95";
     static int ServerPort=161;
     public static int countsend=0;
     public static int countreceive=0;
@@ -24,7 +25,7 @@ public class SNMP2Server {
     }
 
     private static class MyThread extends Thread {
-        SNMP2Implementation snmp2=new SNMP2Implementation();
+        SNMP2Implementation snmp2=new SNMP2Implementation(false);
         public MyThread() {
         }
 
@@ -32,7 +33,7 @@ public class SNMP2Server {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("191.96.12.12"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName(ip));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -42,8 +43,7 @@ public class SNMP2Server {
                     ds.receive(dp);
                     String message=new String(dp.getData(),0,dp.getLength());
 //                    System.out.println(message);
-                    
-//                    
+                      
 //                     
                     int ll=snmp2.decodePacket(b, 0, dp.getLength());
                     System.out.println("==============================================> "+ll);
@@ -73,7 +73,7 @@ public class SNMP2Server {
                     
                     
                     int offset=0;
-                    len=100;
+                    len=200;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);

@@ -38,7 +38,7 @@ public class UFTPServer {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("191.101.189.93"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("65.99.254.85"));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -54,8 +54,8 @@ public class UFTPServer {
                     System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
 
-                    System.out.println("==========>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println("==========>"+ack.length());
+//                    System.out.println(ack);
                     
                     
                     countreceive+=1;
@@ -79,15 +79,15 @@ public class UFTPServer {
                     byte[] newdata=new byte[offset+len+61];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     InetAddress ia=InetAddress.getByName("191.101.189.93");
                     InetAddress sia=InetAddress.getByName("10.0.0.2");
                     
                     len2=uftp.createPacket(newdata, offset, len,ia,sia);
 //                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(newdata,offset,len2);
-                   System.out.println(m);
+//                   System.out.println(m);
                     
 
                     byte[] b1=Utility.hexStringToByteArray(m);
@@ -99,7 +99,7 @@ public class UFTPServer {
 
 //                    System.out.println("------sending from server to ip:port: "+dp.getAddress()+":"+ServerToClientPort);
                     countsend+=1;
-                    System.out.println("------------------->  "+countsend);
+                    System.out.println("---------------------------->  "+countsend);
                     i++;
                 }
 

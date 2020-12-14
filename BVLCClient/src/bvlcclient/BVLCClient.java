@@ -10,10 +10,14 @@ import java.util.Scanner;
 public class BVLCClient {
     static int delayTime=200;
     static int clientToServerPort=47808;
-    static int numberOfPackets=2;
+    static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e100;
+    static boolean check=true;
+    
+    
+    static String ip="173.82.62.35";
     
     static BVLCImplementation isakmp=new BVLCImplementation();
     
@@ -25,30 +29,30 @@ public class BVLCClient {
         int numberOfSockets=10;
         int i=0;
         System.out.println("Udp L2TP Client Started...........");
-//        Scanner sc=new Scanner(System.in);
-//        int fixed=sc.nextInt();
-//       if(fixed==-1){
-//            DatagramSocket ds=new DatagramSocket();
-//
-//            MySender mySender=new MySender(ds);
-//            mySender.init();
-//            Thread myReceiver=new MyReceiver(ds);
-//            myReceiver.start();
-//            i++;
-//        
-//       }
-//       else{
-           while(true){
-            
+        Scanner sc=new Scanner(System.in);
+        int fixed=sc.nextInt();
+        check=true;
+       if(fixed==-1){
+           check=false;
+           numberOfPackets=99999;
             DatagramSocket ds=new DatagramSocket();
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
             i++;
-        }
-//       }
+        
+       }
+       else{
+           while(true){
+               numberOfPackets=fixed;
+                DatagramSocket ds=new DatagramSocket();
+
+                MySender mySender=new MySender(ds);
+                mySender.init();
+
+                i++;
+             }
+       }
         
        
     }
@@ -63,6 +67,9 @@ public class BVLCClient {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=100;
                     byte[] data = new byte[len];
@@ -106,7 +113,7 @@ public class BVLCClient {
                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
@@ -115,9 +122,9 @@ public class BVLCClient {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
 //                    System.out.println(message.length()+" Send from client---> : "+message);
-                    System.out.println("---Send Packet---------------------------------> "+ countsend);
+//                    System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
-                    System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
+                    System.out.println("Total Packet Send---------------> "+ totalSend);
                     Thread.sleep(delayTime);
                     i++;
                     

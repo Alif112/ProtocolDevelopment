@@ -2,20 +2,22 @@ package xtacacsclient;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class XtacacsClient {
     static int delayTime=200;
     static int clientToServerPort=49;
-    static int numberOfPackets=5;
+    static int numberOfPackets=10;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e10;
     
-    static XTACACSImplementation xtacacs=new XTACACSImplementation();
+    static XTACACSImplementation xtacacs=new XTACACSImplementation(true);
     
     /**
      * @param args the command line arguments
@@ -44,8 +46,7 @@ public class XtacacsClient {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
+
             i++;
         }
 //       }
@@ -63,6 +64,8 @@ public class XtacacsClient {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=100;
                     byte[] data = new byte[len];
@@ -80,20 +83,23 @@ public class XtacacsClient {
                     String hexdata3=Utility.bytesToHex(data3);
                     
                     
-//                    Random rand=new Random();
-//                    int idint=rand.nextInt();
-//                    byte bid=(byte) idint;
-//                    String id=Utility.byteToHex(bid);
-//                    System.out.println("id ----> "+id );
+                    Random rand=new Random();
+                    int idint=rand.nextInt(255);
+                    byte bid=(byte) idint;
+                    String id=Utility.byteToHex(bid);
+                    System.out.println("id ----> "+id );
+                    
                     
 //                    XTacacs
-//                    String m="3058"
-//                            + "0201000406707562386963a44b"
-//                            + "06092b060104010401021540"
-//                            + "047f00000102030102010043020d7f302e"
+//                    String m="3003"
+//                            + "02010606"
+//                            + "09097562386963a44b"
+//                            + "06092b0601040104010215676f6f676c65"
+//                            + "736563726574"
+//                            + "000102030102010043020d7f302e"
 //                            + "302c06082b06010225"
 //                            + "7300000220"
-//                            + ""+hexdata+"000000"+hexdata2;
+//                            + ""+hexdata;
 //                    String m="3087"
 //                            + "0201000406707562386963a47a"
 //                            + "06092b0601040104010215000000"+hexdata2;
@@ -112,22 +118,23 @@ public class XtacacsClient {
                     
                     
                     int offset=0;
-                    len=150;
+                    len=104;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
 //                    System.out.println("--------------> ");
 //                    System.out.println(m1);
+                    InetAddress ia=InetAddress.getByName("65.99.254.85");
                     
-                    len2=xtacacs.createPacket(newdata, offset, len);
+                    len2=xtacacs.createPacket(newdata, offset, len, (Inet4Address) ia,49);
                     String m=Utility.bytesToHex(newdata,offset,len2);
 //                    System.out.println("================================>          "+ len2);
 //                    System.out.println(m);
                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);

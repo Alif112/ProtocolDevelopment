@@ -6,16 +6,20 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class NFSClient {
     static int lowerRangeOfPort=1100;
     static int highestRangeOfPort=1120;
 
+    static String ip="65.99.254.85";
     static int clientToServerPort=2050;
-    static int numberOfPackets=5;
+    static int numberOfPackets=10;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e100;
+    static boolean check=true;
+    
     
     static NFSImplementation nfs=new NFSImplementation();
     
@@ -26,16 +30,29 @@ public class NFSClient {
         
         int numberOfSockets=10;
         int i=0;
-        
-        while(true){
-            System.out.println("Udp SSDP Client Started...........");
+        System.out.println("Udp SSDP Client Started...........");
+        Scanner sc=new Scanner(System.in);
+        int socketing=sc.nextInt();
+        if(socketing==-1){
+            check=false;
+            numberOfPackets=99999;
             DatagramSocket ds=new DatagramSocket();
-
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
-            i++;
+            
+        }
+        
+        else{
+            numberOfPackets=socketing;
+            while(true){
+
+                DatagramSocket ds=new DatagramSocket();
+
+                MySender mySender=new MySender(ds);
+                mySender.init();
+
+                i++;
+            }
         }
 
        
@@ -51,6 +68,8 @@ public class NFSClient {
             try {
                 int i=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
 //                    int len=100;
 //                    byte[] data = new byte[len];
@@ -83,13 +102,13 @@ public class NFSClient {
 ////                    String m="5e1d0bdd0000000000000002000186a3000000030000001300000001000000343847760b00000009776572726d736368650000000000000000000001000000050000000100000000000000020000000300000011000000000000000000000020"+hexdata;
 //                    String m=hexdata2+"00000000"+"00000002"+"000186a3"+"0000000300000013"+hexdata2+"00000034"+hexdata3+"0000000000000000"+"00000064"+hexdata;
 //                    
-                      int offset=0,len=64;
+                      int offset=0,len=164;
 //                    
                     byte[] newdata=new byte[offset+len+len];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     
                     len2=nfs.createPacket(newdata, offset, len);
 //                    System.out.println("================================>          "+ len2);
@@ -98,7 +117,7 @@ public class NFSClient {
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
                     ds.send(dp);
@@ -106,9 +125,9 @@ public class NFSClient {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
 //                    System.out.println(message.length()+" Send from client---> : "+message);
-                    System.out.println("---Send Packet---------------------------------> "+ countsend);
+//                    System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
-                    System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
+                    System.out.println("-Total Packet Send-------------------> "+ totalSend);
                     Thread.sleep(150);
                     i++;
                 }
@@ -136,7 +155,7 @@ public class NFSClient {
                 while(true){
                     int currentTime=(int)System.nanoTime();
                     int checkTime=currentTime-startTime;
-                    if(checkTime>=receiverTime || countreceive==numberOfPackets){
+                    if(check && checkTime>=receiverTime || countreceive==numberOfPackets){
                         ds.close();
                         System.out.println("-------------------------------------------------------------Socket closed-----> "+ds);
                         break;

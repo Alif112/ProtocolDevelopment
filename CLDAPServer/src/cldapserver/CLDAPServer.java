@@ -13,6 +13,7 @@ public class CLDAPServer {
     static int ServerPort=389;
     public static int countsend=0;
     public static int countreceive=0;
+    public static String ip="65.99.254.113";
     
     /**
      * @param args the command line arguments
@@ -34,7 +35,7 @@ public class CLDAPServer {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("191.96.12.12"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName(ip));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -52,8 +53,8 @@ public class CLDAPServer {
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             
-                    System.out.println("==========>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println("==========>"+ack.length());
+//                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
 //                    
 //                    int len=100;
@@ -98,9 +99,9 @@ public class CLDAPServer {
                    byte[] newdata=new byte[offset+len+100];
                     
                     int len2=cldap.createPacket(b, offset, len);
-                    System.out.println("================================>          "+ len2);
+//                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(b,offset,len2);
-                   System.out.println(m);
+//                   System.out.println(m);
                     
                     byte[] b1=Utility.hexStringToByteArray(m);
                     

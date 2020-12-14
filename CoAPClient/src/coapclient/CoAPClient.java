@@ -5,14 +5,15 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 public class CoAPClient {
+    static int delay=200;
     static int clientToServerPort=5683;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e100;
+    static String ip="65.99.254.85";
     
     static CoAPImplementation dspv2=new CoAPImplementation();
     
@@ -43,8 +44,7 @@ public class CoAPClient {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
+
             i++;
         }
 //       }
@@ -62,6 +62,8 @@ public class CoAPClient {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=100;
                     byte[] data = new byte[len];
@@ -89,7 +91,7 @@ public class CoAPClient {
 //                    String m="44020c3cd19796c1c13cff000000"+hexdata;
                     
                     int offset=0;
-                    len=100;
+                    len=200;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
@@ -104,7 +106,7 @@ public class CoAPClient {
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
@@ -116,7 +118,7 @@ public class CoAPClient {
                     System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
                     System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(150);
+                    Thread.sleep(delay);
                     i++;
                     
                 }

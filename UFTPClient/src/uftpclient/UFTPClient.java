@@ -17,8 +17,8 @@ public class UFTPClient {
     static int clientToServerPort=1044;
     public static int countsend=0;
     public static int countreceive=0;
-    public static long timeDelayAtReceiver=(long)5e9;
-    public static int numberOfPackets=3;
+    public static long timeDelayAtReceiver=(long)10e100;
+    public static int numberOfPackets=10;
     
     static UFTPImplementation uftp=new UFTPImplementation();
     
@@ -31,8 +31,7 @@ public class UFTPClient {
             DatagramSocket ds=new DatagramSocket();
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start(); 
+
             
             
         }
@@ -50,6 +49,8 @@ public class UFTPClient {
             try {
                 int i=0;
                 
+            Thread myReceiver=new MyReceiver(ds);
+            myReceiver.start(); 
                 while(i<numberOfPackets){
 //                    int len=200;
 //                    byte[] data = new byte[len];
@@ -72,15 +73,15 @@ public class UFTPClient {
                     byte[] newdata=new byte[offset+len+61];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
-                    InetAddress ia=InetAddress.getByName("191.101.189.93");
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
+                    InetAddress ia=InetAddress.getByName("65.99.254.85");
                     InetAddress sia=InetAddress.getByName("10.0.0.2");
                     
                     len2=uftp.createPacket(newdata, offset, len,ia,sia);
 //                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(newdata,offset,len2);
-                   System.out.println(m);
+//                   System.out.println(m);
                     
                     
                     

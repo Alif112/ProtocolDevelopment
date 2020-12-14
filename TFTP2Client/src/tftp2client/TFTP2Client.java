@@ -8,11 +8,13 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class TFTP2Client {
+    static int delay=300;
     static int clientToServerPort=69;
-    static int numberOfPackets=5;
+    static int numberOfPackets=10;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e100;
+    static String ip="65.99.254.85";
     
     static TFTP2Implementation tftp2=new TFTP2Implementation();
     
@@ -43,8 +45,6 @@ public class TFTP2Client {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
             i++;
         }
 //       }
@@ -62,6 +62,8 @@ public class TFTP2Client {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=200;
                     byte[] data = new byte[len];
@@ -101,17 +103,17 @@ public class TFTP2Client {
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     
                     len2=tftp2.createPacket(newdata, offset, len);
                     String m=Utility.bytesToHex(newdata,offset,len2);
-                    System.out.println("================================>          "+ len2);
-                   System.out.println(m);
+//                    System.out.println("================================>          "+ len2);
+//                   System.out.println(m);
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
@@ -120,10 +122,10 @@ public class TFTP2Client {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
 //                    System.out.println(message.length()+" Send from client---> : "+message);
-                    System.out.println("---Send Packet---------------------------------> "+ countsend);
+//                    System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
-                    System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(200);
+                    System.out.println("Total Packet Send---------------------> "+ totalSend);
+                    Thread.sleep(delay);
                     i++;
                     
                 }
@@ -165,9 +167,9 @@ public class TFTP2Client {
                     countreceive+=1;
 //                    String received= new String(dp1.getData(),0,b1.length);
                     int ll=tftp2.decodePacket(b1, 0, dp1.getLength());
-                    System.out.println("==============================================> "+ll);
+//                    System.out.println("Received at client==============================================> "+ll);
                     String ack=Utility.bytesToHex(b1, 0, ll);                   
-                    System.out.println(ack);
+//                    System.out.println(ack);
 //                    
                     
 //                    System.out.println("--------received-----");

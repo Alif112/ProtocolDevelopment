@@ -8,11 +8,12 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class BFDClient {
+    static String ip="65.99.254.85";
     static int clientToServerPort=3784;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e10;
     
     static BFDImplementation bfd=new BFDImplementation();
     
@@ -43,8 +44,7 @@ public class BFDClient {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
+            
             i++;
         }
 //       }
@@ -62,6 +62,8 @@ public class BFDClient {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=20;
                     byte[] data = new byte[len];
@@ -102,7 +104,7 @@ public class BFDClient {
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);

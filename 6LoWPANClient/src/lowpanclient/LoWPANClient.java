@@ -8,11 +8,12 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class LoWPANClient {
+    static int delayTime=200;
     static int clientToServerPort=17754;
-    static int numberOfPackets=5;
+    static int numberOfPackets=20;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e100;
     
     static LoWPANImplementation lowpan=new LoWPANImplementation();
     
@@ -43,8 +44,7 @@ public class LoWPANClient {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
+
             i++;
         }
 //       }
@@ -62,6 +62,8 @@ public class LoWPANClient {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=100;
                     byte[] data = new byte[len];
@@ -94,22 +96,22 @@ public class LoWPANClient {
 //                            + "5521";
                            
                     int offset=0;
-                    len=100;
+                    len=124;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     
                     len2=lowpan.createPacket(newdata, offset, len);
-                    System.out.println("================================>          "+ len2);
+//                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(newdata,offset,len2);
-                   System.out.println(m);
+//                   System.out.println(m);
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName("65.99.254.85");
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
@@ -121,7 +123,7 @@ public class LoWPANClient {
                     System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
                     System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(200);
+                    Thread.sleep(250);
                     i++;
                     
                 }
@@ -163,9 +165,9 @@ public class LoWPANClient {
                     countreceive+=1;
 //                    String received= new String(dp1.getData(),0,b1.length);
                     int ll=lowpan.decodePacket(b1, 0, dp1.getLength());
-//                    System.out.println("==============================================> "+ll);
+                    System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b1, 0, ll);                   
-                    System.out.println(ack);
+//                    System.out.println(ack);
                     
                     
 //                    System.out.println("--------received-----");

@@ -14,13 +14,13 @@ public class ISAKMPImplementation {
     public int initiatorVector;
     
     
-    public ISAKMPImplementation(boolean b) {
+    public ISAKMPImplementation(boolean isClient) {
         initiatorSPI=Utility.random.nextLong();
         responderSPI=Utility.random.nextLong();
         nextPayload=0x2e;
         version=0x20;
         exchangeType=0x23;
-        if(b)flags=0x08;
+        if(isClient)flags=0x08;
         else flags=0x23;
         messageID=Utility.random.nextInt();
         initiatorVector=Utility.random.nextInt();

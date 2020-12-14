@@ -5,6 +5,7 @@
  */
 package byteservertcp;
 
+import com.sun.corba.se.impl.util.Utility;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,8 +26,8 @@ public class ByteServerTCP {
     static OutputStreamWriter osr;
     static BufferedReader br;
     static String message;
-    static String ip="191.96.12.12";
-    static int serversocketport=1212;
+    static String ip="72.249.184.22";
+    static int serversocketport=12344;
     
     /**
      * @param args the command line arguments
@@ -81,7 +82,7 @@ public class ByteServerTCP {
                     if(length==-1) break;
                     
                     message = new String(data, 0, length);
-
+                    
                     System.out.println(message);
                     
                     message = message.toUpperCase();

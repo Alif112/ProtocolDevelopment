@@ -70,10 +70,6 @@ public class ISAKMPImplementation {
     }
     
     public int decodePacket(byte [] data, int offset, int len){
-        initiatorSPI=Functions.getLong8(data, offset);
-        responderSPI=Functions.getLong8(data, offset+8);
-        messageID=Functions.getInt4(data, offset+20);
-        initiatorVector=Functions.getInt4(data, offset+32);
         
         System.arraycopy(data, offset+36, data, offset, len-36);
         

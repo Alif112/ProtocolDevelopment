@@ -40,7 +40,7 @@ public class ByteGeneratorTcp {
         public void run() {
 
             try {
-                socket=new Socket("191.96.12.12",1212);
+                socket=new Socket("72.249.184.22",12344);
 //                socket=new Socket("192.168.19.125",1212);
                 os = socket.getOutputStream();
                 is = socket.getInputStream();
@@ -64,7 +64,7 @@ public class ByteGeneratorTcp {
                     data[1] = (byte)((len & 0xff));
 
                     System.arraycopy(message, 0, data, 2, len);
-
+                    
                     os.write(data);
                     sendcount+=1;
                     System.out.println("-----------> Send Data From Client<-------- "+sendcount);

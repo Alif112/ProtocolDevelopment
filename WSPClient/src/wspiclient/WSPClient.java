@@ -28,11 +28,12 @@ public class WSPClient {
     static int lowerRangeOfPort=1100;
     static int highestRangeOfPort=1120;
 
+    static String ip="65.99.254.85";
     static int clientToServerPort=9200;
-    static int numberOfPackets=5;
+    static int numberOfPackets=10;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e10;
     static WSPImplementation wsp=new WSPImplementation();
     
     /**
@@ -49,8 +50,7 @@ public class WSPClient {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
+
             i++;
         }
 
@@ -67,6 +67,10 @@ public class WSPClient {
             try {
                 int i=0;
                 int countsend=0;
+                
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
+                
                 while(i<numberOfPackets){
 //                    int len=50;
 //                    byte[] data = new byte[len];
@@ -114,16 +118,16 @@ public class WSPClient {
                     byte[] newdata=new byte[offset+len+50];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     
                     len2=wsp.createPacket(newdata, offset, len);
-                    System.out.println("================================>          "+ len2);
+//                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(newdata,offset,len2);
-                   System.out.println(m);
+//                   System.out.println(m);
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
                     ds.send(dp);
@@ -179,8 +183,8 @@ public class WSPClient {
                     String ack=Utility.bytesToHex(b1, 0, ll);
                     
                             
-                    System.out.println("==========>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println("==========>"+ack.length());
+//                    System.out.println(ack);
                     totalReceive+=1;
                     System.out.println("Total Received at client:-->----------------> "+ totalReceive);
                     

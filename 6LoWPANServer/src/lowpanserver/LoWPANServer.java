@@ -3,11 +3,8 @@ package lowpanserver;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.Random;
-import sun.audio.AudioPlayer;
 
 public class LoWPANServer {
     static int ServerPort=17754;
@@ -34,7 +31,7 @@ public class LoWPANServer {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("191.96.12.12"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("65.99.254.85"));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -56,7 +53,7 @@ public class LoWPANServer {
 //                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
                     
-                    int len=100;
+                    int len=112;
                     byte[] data = new byte[len];
                     data=Utility.getRandomData(data, len);
                     String hexdata=Utility.bytesToHex(data);
@@ -74,7 +71,7 @@ public class LoWPANServer {
 //                           
                     
                     int offset=0;
-                    len=100;
+                    len=112;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);

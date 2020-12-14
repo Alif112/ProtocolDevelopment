@@ -3,11 +3,8 @@ package cigiserver;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.Random;
-import sun.audio.AudioPlayer;
 
 public class CIGIServer {
     static int ServerPort=8004;
@@ -33,7 +30,7 @@ public class CIGIServer {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("191.96.12.12"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("65.99.254.85"));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -45,12 +42,12 @@ public class CIGIServer {
                     
                     
                     int ll=cigi.decodePacket(b, 0, dp.getLength());
-                    System.out.println("==============================================> "+ll);
+                    System.out.println("=========================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             
-                    System.out.println("==========>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println("==========>"+ack.length());
+//                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
 //                    int len=46;
 //                    byte[] data = new byte[len];
@@ -95,10 +92,10 @@ public class CIGIServer {
                    byte[] newdata=new byte[offset+len+61];
                     
                     int len2=cigi.createPacket(b, offset, len);
-                    System.out.println("================================>          "+ len2);
+//                    System.out.println("=============================>          "+ len2);
                    String m=Utility.bytesToHex(b,offset,len2);
-                   System.out.println(m);
-                   System.out.println("----------------------length of data-------> "+m.length());
+//                   System.out.println(m);
+//                   System.out.println("----------------------length of data-------> "+m.length());
                     
                     byte[] b1=Utility.hexStringToByteArray(m);
               
@@ -110,7 +107,7 @@ public class CIGIServer {
 
 //                    System.out.println("------sending from server to ip:port: "+dp.getAddress()+":"+ServerToClientPort);
                     countsend+=1;
-                    System.out.println("------------------->  "+countsend);
+                    System.out.println("Number of pkt------------------->  "+countsend);
                 }
 
 

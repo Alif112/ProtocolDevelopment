@@ -36,7 +36,7 @@ public class TFTPServer {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("191.96.12.12"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("65.99.254.85"));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -53,8 +53,8 @@ public class TFTPServer {
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             
-                    System.out.println("==========>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println("==========>"+ack.length());
+//                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
                     
                     
@@ -86,8 +86,8 @@ public class TFTPServer {
                     int backlen=Utility.getRandomData(newdata, offset, len);
                     
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("---sending from server    ---------------------------------> "+m1.length());
-                    System.out.println(m1);
+//                    System.out.println("---sending from server    ---------------------------------> "+m1.length());
+//                    System.out.println(m1);
                     
                     backlen=snmp.createPacket(newdata, offset, len);
                     

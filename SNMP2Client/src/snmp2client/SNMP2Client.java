@@ -9,12 +9,14 @@ import java.util.Scanner;
 
 public class SNMP2Client {
     static int clientToServerPort=161;
-    static int numberOfPackets=5;
+    static int numberOfPackets=10;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e100;
+    static String ip="72.249.184.95";
+    static boolean check=true;
     
-    static SNMP2Implementation snmp2=new SNMP2Implementation();
+    static SNMP2Implementation snmp2=new SNMP2Implementation(true);
     
     /**
      * @param args the command line arguments
@@ -24,30 +26,30 @@ public class SNMP2Client {
         int numberOfSockets=10;
         int i=0;
         System.out.println("Udp L2TP Client Started...........");
-//        Scanner sc=new Scanner(System.in);
-//        int fixed=sc.nextInt();
-//       if(fixed==-1){
-//            DatagramSocket ds=new DatagramSocket();
-//
-//            MySender mySender=new MySender(ds);
-//            mySender.init();
-//            Thread myReceiver=new MyReceiver(ds);
-//            myReceiver.start();
-//            i++;
-//        
-//       }
-//       else{
-           while(true){
-            
+        Scanner sc=new Scanner(System.in);
+        int fixed=sc.nextInt();
+        check=true;
+       if(fixed==-1){
+           check=false;
+           numberOfPackets=99999;
             DatagramSocket ds=new DatagramSocket();
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
             i++;
-        }
-//       }
+        
+       }
+       else{
+           while(true){
+               numberOfPackets=fixed;
+                DatagramSocket ds=new DatagramSocket();
+
+                MySender mySender=new MySender(ds);
+                mySender.init();
+
+                i++;
+             }
+       }
         
        
     }
@@ -62,6 +64,8 @@ public class SNMP2Client {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=100;
                     byte[] data = new byte[len];
@@ -110,7 +114,7 @@ public class SNMP2Client {
                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
@@ -119,9 +123,9 @@ public class SNMP2Client {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
 //                    System.out.println(message.length()+" Send from client---> : "+message);
-                    System.out.println("---Send Packet---------------------------------> "+ countsend);
+//                    System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
-                    System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
+                    System.out.println("Total Packet Send--------------------> "+ totalSend);
                     Thread.sleep(200);
                     i++;
                     
@@ -150,7 +154,7 @@ public class SNMP2Client {
                 while(true){
                     int currentTime=(int)System.nanoTime();
                     int checkTime=currentTime-startTime;
-                    if(checkTime>=receiverTime || countreceive==numberOfPackets){
+                    if(check && checkTime>=receiverTime || countreceive==numberOfPackets){
                         ds.close();
                         System.out.println("-------------------------------------------------------------Socket closed-----> "+ds);
                         break;
@@ -165,7 +169,7 @@ public class SNMP2Client {
 //                    String received= new String(dp1.getData(),0,b1.length);
                     int ll=snmp2.decodePacket(b1, 0, dp1.getLength());
                     System.out.println("==============================================> "+ll);
-                    String ack=Utility.bytesToHex(b1, 0, ll);                   
+//                    String ack=Utility.bytesToHex(b1, 0, ll);                   
 //                    System.out.println(ack);
                     
                     

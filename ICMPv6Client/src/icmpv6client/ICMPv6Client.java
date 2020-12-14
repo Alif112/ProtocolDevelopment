@@ -8,11 +8,13 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class ICMPv6Client {
+    static int delay=200;
     static int clientToServerPort=3544;
-    static int numberOfPackets=5;
+    static int numberOfPackets=20;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e100;
+    static String ip="65.99.254.85";
     
     static ICMPv6Implementation icmpv6=new ICMPv6Implementation();
     
@@ -43,8 +45,7 @@ public class ICMPv6Client {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
+
             i++;
         }
 //       }
@@ -62,6 +63,8 @@ public class ICMPv6Client {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=100;
                     byte[] data = new byte[len];
@@ -91,7 +94,7 @@ public class ICMPv6Client {
 //                            + "0000";
 ////                    
                     int offset=0;
-                    len=100;
+                    len=200;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
@@ -106,7 +109,7 @@ public class ICMPv6Client {
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
@@ -115,10 +118,10 @@ public class ICMPv6Client {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
 //                    System.out.println(message.length()+" Send from client---> : "+message);
-                    System.out.println("---Send Packet---------------------------------> "+ countsend);
+//                    System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
-                    System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
-                    Thread.sleep(250);
+                    System.out.println("Total Packet Send---------------------> "+ totalSend);
+                    Thread.sleep(delay);
                     i++;
                     
                 }

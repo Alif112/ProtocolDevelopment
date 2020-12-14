@@ -13,10 +13,11 @@ import java.util.Random;
 
 public class CLDAPClient {
     static int clientToServerPort=389;
-    static int numberOfPackets=5;
+    static int numberOfPackets=10;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e9;
+    static String ip="65.99.254.85";
     
     static CLDAPImplementation cldap=new CLDAPImplementation();
     
@@ -34,8 +35,7 @@ public class CLDAPClient {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
+
             i++;
         }
        
@@ -51,6 +51,8 @@ public class CLDAPClient {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
 //                    int len=100;
 //                    byte[] data = new byte[len];
@@ -111,7 +113,7 @@ public class CLDAPClient {
 //                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);

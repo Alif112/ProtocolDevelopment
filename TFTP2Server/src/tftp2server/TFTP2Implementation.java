@@ -3,8 +3,12 @@ package tftp2server;
 
 public class TFTP2Implementation {
     public byte opCode;
+    public byte[] srcFileData;
+    public String srcFile;
     
     public TFTP2Implementation() {
+        srcFile="000662696e38303638532d686561646572006f63746574007473697a65003000626c6b73697a6500313432380074696d656f7574003100ff00";
+        srcFileData=Utility.hexStringToByteArray(srcFile);
     }
     
     public int createPacket(byte [] data, int offset, int len){
@@ -16,8 +20,7 @@ public class TFTP2Implementation {
         int index=offset;
 //        data[index++]=0x00; data[index++]=opCode;
 //        srcfile name copy
-        String srcFile="000662696e38303638532d686561646572006f63746574007473697a65003000626c6b73697a6500313432380074696d656f7574003100ff00";
-        byte[] srcFileData=Utility.hexStringToByteArray(srcFile);
+
         System.arraycopy(srcFileData, 0, data, index, srcFileData.length);
         index+=srcFileData.length;
         

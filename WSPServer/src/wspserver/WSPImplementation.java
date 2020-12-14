@@ -14,11 +14,16 @@ public class WSPImplementation {
     public byte pduType;
     public byte uriLen;
     public byte headerLen;
-
+    
+    public String uri;
+    public byte[] uriData;
+    
     public WSPImplementation() {
         transactionID=(byte) Functions.random.nextInt(256);
         pduType=0x60;
         uriLen=0x17;
+        uri="613a2f2f3132372e302e302e312f696e6465782e776d6c000000";
+        uriData=Utility.hexStringToByteArray(uri);
         
     }
     
@@ -37,11 +42,8 @@ public class WSPImplementation {
         headerLen=(byte) len;
         data[index++]=headerLen;
 
-        String m="613a2f2f3132372e302e302e312f696e6465782e776d6c000000";
-        byte[] b=Utility.hexStringToByteArray(m);
-        int bLen=b.length;
-        System.arraycopy(b, 0, data, index, bLen);
-        index+=bLen;
+        System.arraycopy(uriData, 0, data, index, uriData.length);
+        index+=uriData.length;
 
         transactionID=(byte) Functions.random.nextInt(256);
         

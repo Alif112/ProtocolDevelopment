@@ -1,45 +1,82 @@
 
 package xtacacsserver;
 
-public class XTACACSImplementation {
+import java.net.Inet4Address;
 
+public class XTACACSImplementation {
+    public byte type;
+    public int result1;
+    public int result2;
+    public short line;
+    public short result3;
     
-    public XTACACSImplementation() {
+    
+    public XTACACSImplementation(boolean  isClient) {
+        if(isClient) type=0x03;
+        else type=0x02;
+        result1=Utility.random.nextInt();
+        result2=Utility.random.nextInt();
+        line=(short) Utility.random.nextInt();
+        result3=(short) Utility.random.nextInt();
         
     }
     
-    public int createPacket(byte [] data, int offset, int len){
-        if(data.length <= offset + len + 29)
+    public int createPacket(byte [] data, int offset, int len, Inet4Address destAddress, int destPort){
+        if(data.length <= offset + len + 41)
             return len;
         for(int i = offset + len - 1; i >=offset; i--)
-            data[i + 29] = data[i];
+            data[i + 41] = data[i];
 
         int index=offset;
         data[index++]=0x30;
-        int updateLength=len+27;
-        data[index++]=(byte) updateLength;
-        String m="0201000406707562386963a4";
-        byte[] mData=Utility.hexStringToByteArray(m);
-        System.arraycopy(mData, 0, data, index, mData.length);
-        index+=mData.length;
-        updateLength=len+14;
-        data[index++]=(byte) updateLength;
+        data[index++]=type;
+        data[index++]=0x02; data[index++]=0x01;
+//        username and pass len
+        data[index++]=0x06; data[index++]=0x06;
+//        response and reason
+        data[index++]=0x01; data[index++]=0x01;
+        Functions.putInt4(data, index, result1);
+        index+=4;
+        System.arraycopy(destAddress.getAddress(), 0, data, index, 4);
+        index += 4;
+        //port is 2 byte
+        Functions.putInt(data, index, destPort); 
+        index+=2;
+        //copy line
+        Functions.putShort2(data, index, line);
+        index+=2;
+//        result2 and result3
+        Functions.putInt4(data, index, result2);
+        index+=4;
+        Functions.putShort2(data, index, result3);
+        index+=2;
+        String uPass="676f6f676c65736563726574";
+        byte[] uPassData=Utility.hexStringToByteArray(uPass);
+        System.arraycopy(uPassData, 0, data, index, uPassData.length);
+        index+=uPassData.length;
+//        zero padding
+        data[index++]=0x00; data[index++]=0x00; data[index++]=0x00;
         
-        String m2="06092b0601040104010215";
-        byte[] m2Data=Utility.hexStringToByteArray(m2);
-        System.arraycopy(m2Data, 0, data, index, m2Data.length);
-        index+=m2Data.length;
-        
-        data[index++]=0x00; data[index++]=0x00; data[index++]=0x00; 
-        
+        result1=Utility.random.nextInt();
+        result2=Utility.random.nextInt();
+        line=(short) Utility.random.nextInt();
+        result3=(short) Utility.random.nextInt();
         
         return index+len;
     }
     
     public int decodePacket(byte [] data, int offset, int len){
-        System.arraycopy(data, offset+29, data, offset, len-29);
+        result1=Functions.getInt4(data, offset+8);
+        line=Functions.getShort2(data, offset+18);
+        result2=Functions.getInt4(data, offset+20);
+        result3=Functions.getShort2(data, offset+24);
+        System.arraycopy(data, offset+41, data, offset, len-41);
+        return len-41;
         
-        return len-29;
+//        Slimp3 decoder
+        
+//        System.arraycopy(data, offset+21, data, offset, len-21);
+//        return len-21;
     }
     
 }

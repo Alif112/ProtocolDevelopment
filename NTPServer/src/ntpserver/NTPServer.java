@@ -13,7 +13,7 @@ public class NTPServer {
     static int ServerPort=123;
     public static int countsend=0;
     public static int countreceive=0;
-    static NTPImplementation ntp=new NTPImplementation();
+    static NTPImplementation ntp=new NTPImplementation(false);
     
     
     /**
@@ -35,7 +35,7 @@ public class NTPServer {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("191.96.12.12"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("65.99.254.85"));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -51,8 +51,8 @@ public class NTPServer {
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
                             
-                    System.out.println("==========>"+ack.length());
-                    System.out.println(ack);
+//                    System.out.println("==========>"+ack.length());
+//                    System.out.println(ack);
                     
                     
                     
@@ -92,13 +92,13 @@ public class NTPServer {
                     byte[] newdata=new byte[offset+len+len];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     
                     len2=ntp.createPacket(newdata, offset, len);
-                    System.out.println("================================>          "+ len2);
+//                    System.out.println("================================>          "+ len2);
                    String m=Utility.bytesToHex(newdata,offset,len2);
-                   System.out.println(m);
+//                   System.out.println(m);
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
                     
@@ -109,7 +109,7 @@ public class NTPServer {
 
 //                    System.out.println("------sending from server to ip:port: "+dp.getAddress()+":"+ServerToClientPort);
                     countsend+=1;
-                    System.out.println("------------------->  "+countsend);
+                    System.out.println("---------------------------------------->  "+countsend);
                 }
 
 

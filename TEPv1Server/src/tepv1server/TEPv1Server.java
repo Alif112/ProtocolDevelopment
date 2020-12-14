@@ -34,7 +34,7 @@ public class TEPv1Server {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("191.96.12.12"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("65.99.254.85"));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -84,7 +84,7 @@ public class TEPv1Server {
                     
                     
                     int offset=0;
-                    len=120;
+                    len=200;
                     
                     byte[] newdata=new byte[offset+len+200];
                     int len2=Utility.getRandomData(newdata, offset, len);

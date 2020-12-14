@@ -10,10 +10,11 @@ import java.util.Scanner;
 public class ISAKMPClient {
     static int delayTime=200;
     static int clientToServerPort=500;
-    static int numberOfPackets=5;
+    static int numberOfPackets=10;
     static int totalSend=0;
     static int totalReceive=0;
-    static long receiverTime=(long) 1e9;
+    static long receiverTime=(long) 10e100;
+    static String ip="65.99.254.85";
     
     static ISAKMPImplementation isakmp=new ISAKMPImplementation(true);
     
@@ -44,8 +45,7 @@ public class ISAKMPClient {
 
             MySender mySender=new MySender(ds);
             mySender.init();
-            Thread myReceiver=new MyReceiver(ds);
-            myReceiver.start();
+
             i++;
         }
 //       }
@@ -63,6 +63,8 @@ public class ISAKMPClient {
             try {
                 int i=0,j=0;
                 int countsend=0;
+                Thread myReceiver=new MyReceiver(ds);
+                myReceiver.start();
                 while(i<numberOfPackets){
                     int len=100;
                     byte[] data = new byte[len];
@@ -91,7 +93,7 @@ public class ISAKMPClient {
  
                     
                     int offset=0;
-                    len=100;
+                    len=200;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);
@@ -106,7 +108,7 @@ public class ISAKMPClient {
                   
                     byte[] b1=Utility.hexStringToByteArray(m);
                     
-                    InetAddress ia=InetAddress.getByName("191.96.12.12");
+                    InetAddress ia=InetAddress.getByName(ip);
 //                    InetAddress ia=InetAddress.getByName("191.101.189.89");
 //                    InetAddress ia=InetAddress.getByName("localhost");
                     DatagramPacket dp=new DatagramPacket(b1, b1.length,ia,clientToServerPort);
@@ -115,9 +117,9 @@ public class ISAKMPClient {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
 //                    System.out.println(message.length()+" Send from client---> : "+message);
-                    System.out.println("---Send Packet---------------------------------> "+ countsend);
+//                    System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
-                    System.out.println("---Total Packet Send---------------------------------> "+ totalSend);
+                    System.out.println("---Total Packet Send---------------------> "+ totalSend);
                     Thread.sleep(delayTime);
                     i++;
                     
