@@ -7,9 +7,10 @@ import java.net.SocketException;
 import java.util.Random;
 
 public class BaseServer {
-    static int ServerPort=4443;
+    static int ServerPort=5007;
     public static int countsend=0;
     public static int countreceive=0;
+    public static String ip="65.99.254.85";
     
     /**
      * @param args the command line arguments
@@ -39,7 +40,7 @@ public class BaseServer {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort,InetAddress.getByName("65.99.254.85"));
+                DatagramSocket ds=new DatagramSocket(ServerPort,InetAddress.getByName(ip));
                 
                 byte[] b=new byte[2048];
 
@@ -50,7 +51,7 @@ public class BaseServer {
                     ds.receive(dp);
                     String message=new String(dp.getData(),0,dp.getLength());
 //                    System.out.println(message);
-                    
+                    System.out.println("==============================================> "+dp.getLength());
                     
                      
 //                    int ll=cigi.decodePacket(b, 0, 88);
@@ -61,7 +62,7 @@ public class BaseServer {
 //                    System.out.println("==========>"+ack.length());
 //                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);
-                    int len=100;
+                    int len=200;
                     byte[] data = new byte[len];
                     data=Utility.getRandomData(data, len);
                     String hexdata=Utility.bytesToHex(data);
@@ -82,14 +83,35 @@ public class BaseServer {
                     int idint=rand.nextInt(16);
                     byte bid=(byte) idint;
                     String id=Utility.byteToHex(bid);
-//                    System.out.println("id ----> "+id );
-
                     
+                    //STUN
+                    String m="010100582112a442fd35d5ae3101f6a0b71c2d05002000140002329adf92ac42fd35d5783b01d15f49308ac50006000b64667074663a39696868340080220009696265346a2e6f72670000500008001423be727a9c7a4b8492fd5662342f6464c8d817ad80280004a69a4f36"
+                            + "";
+                    //                    SSDP
+//                    String m="4d2d534541524348202a20485454502f312e310d0a486f73743a5b464630323a3a435d3a313930300d0a53543a75726e3a4d6963726f736f66742057696e646f77732050656572204e616d65205265736f6c7574696f6e2050726f746f636f6c3a2056343a495056363a4c696e6b4c6f63616c0d0a4d616e3a22737364703a646973636f766572220d0a4d583a330d0a0d0a"
+//                            + ""+hexdata;
+
+//                    Time 
+//                    String m="dfa501100001000000000000204641464345504545434e464445464643464745464643444243414341434141410000200001"
+//                            + ""+hexdata;
+
+
+
+                    //                    SIP
+//                    String m="5349502f322e302031303020aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+                    
+//                        LDSS
+//                    String m="000101007f59f3a8d595c95ed02fe9198be4d042ab32e818000000000000000000000000000000000000000000000a6400b2000032000a640000000051000000aaaaaaaaaaaaaaaa"
+//                            + "";
+
+//                    uaudp
+//                    String m="050000000000000000000000000000000000"+hexdata;
+
 //                    quic
 //                    String m="ccfaceb00108761eb384ddb1af46000044be7447c579c276e8a7c6bf92dfc7c8c27b562b7451b516352d1ff5966e4efe35a90eabb1b69d79c05e19ed86d79a90d057341c5f9af8be887fd23c16758b391921cb4e486568c300ca3ba83d027e3f0ff66a1f0a5db9fc176f950323f84d8ff5b153e620e8120bbccff5f800fb5b46c7a281ba2afcff0d52e4943f7a50f771b8da70f48673c9644988e6bb85ff19218b6872f2f1305c8361b71a1ce284206d4ca9dd37ff0b3c413d8948c739e70096c24d3499163cf0a6e1e26a596b270c8f014e97c0ac8e78132a136df6c0f61f501ce7bb130f723b52bdd6700c1ab2e920e79cc4d0a286ab505ba9debc5970640682022bcb8a9dabed32bd8f40595fc5aaf93117652227c8ad34b050566444f78f4887556ef7b328cab9802405e6c493f5b4491541115047adb4d2d78c992ef1433527d95f1d9dc82acfec3a001844b6ee6a92d261d037f12738aa46613e224bf90c5e330b8befa77d79dcca2ca8a00df8897c6bec8ea31f9980eef6a2ca5eba7080799f077e79d4b18b4a393b7da48740c5dae757d208f349056ba2a8edf1c3a22c25557d28bbd393b5543d29db03d6dd3a2b1d7f53ff91acb5d5d42fe5a2bbdc6a535cbda53f46f27d11bf98448b103789bb0addc6f0d38c6b186692865a24a5dfb38c9bee2750bafa553b4b8f8d9508ce6fb3ff0e823332267d956fad5b8756c0dc5ca56969e8e13566337b73ea5c6c14e8cecf862f261803dc398701707e52a3e6e24c94be5c71bd11d0aa3f7ac834e4ea1999c5f4d27d18a4d617a00f7aa1e9d59d7ea02d33aa43d728fe5a28065c6d45274bd24761baeafd9416b346ffb17e23a10a024107dddc390532e15df48358f3c32e8313b2b48eeb303f6c32d204f5cb8e7640d2e3f9a86c393002e7ab2d663dbb5076fcc763497ae420c2d4a2952118b980ab2277de8e000db411c06b963a98842cd8a733041c5120d7149152d91204709b29aaee4116a0a942498734caef28d69e452a9b52379a79a3c84d6bf0306ee2252a1051f0c3b48031734d2600c25bc0d2375b95a3b03ffcd9e77a443bd68adbbed24f02451d3401cf0e01d945c36e08203745167887d46006c9460019bb19a3c5f751a75a4977022dc62e0b95c18caa7c6993a0d54490694ebdbcc9f42062678eced940d731addbc330b8329e1b0a52bf8d983ba61e9a51541169605943bfeac55b1a4de00f7df9ec53f92b2319c7243469eab71f7b38a11cc7f5e2bf707c9352d334b16edf53a12a922094a432d92e13249850562d06a5ad1c63f78cb5e4ed067a101c21674b5a5d815b4e45d999f462a6c0023e91c8b3225bac524d63a7eaae2c58b47764ee9c1eac9a055c6c55e60e5167d2c4f83f12fe04dac5ace42d095ea210b2f62b001f155452dd659992eee8d2530694e0dd76e290b2419f8a5d29274cedafb902c0fc7a88236049b9fecfe705df3d16a9207e378f5a01213bb942e9c60de0338e4b533e1013d1dd3b8f18231468b18943f1e1489df58baa4a2759c3181869f2665466b63a3b3d7266ccc0a612f9c5fabd079e9f2a990b415f51a862122fd4ccead6a78587655ac489d0b82601073d2bade7e840005bc3b415fc6b96de0127c62ac6c9ae72ea765e0ceb4ce8697e357b7c70336362c68fcef12078d3713682ae1a616984e7997ea9d2b67fe0f3e4d7942bcdd77107187385e72e8e9ca0909a0579b87b4071718fc9";
                     
 //                    udp
-                    String m=hexdata;
+//                    String m=hexdata;
                     
                     //                    TPKT
 //                    String m="321400080000347a37fe000013011405"

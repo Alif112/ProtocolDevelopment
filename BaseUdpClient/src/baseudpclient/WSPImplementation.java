@@ -19,7 +19,6 @@ public class WSPImplementation {
         transactionID=(byte) Functions.random.nextInt(256);
         pduType=0x40;
         uriLen=0x1b;
-        
     }
     
     public int createPacket(byte [] data, int offset, int len){

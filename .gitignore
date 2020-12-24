@@ -339,3 +339,12 @@
 /BaseUdpServer/nbproject/private/
 /BaseUdpClient/build/
 /BaseUdpClient/dist/
+/BaseClient/nbproject/private/
+/BaseClient/build/
+/BaseClient/dist/
+/UAUDPServer/nbproject/private/
+/UAUDPServer/build/
+/UAUDPServer/dist/
+/JavaSoundRecorder/nbproject/private/
+/JavaSoundRecorder/build/
+/JavaSoundRecorder/dist/

@@ -35,7 +35,7 @@ public class CoAPImplementation {
         
         messageID= (short) Utility.random.nextInt();
         tokenID=Utility.random.nextInt();
-        return index+len;
+        return len+12;
     }
     
     public int decodePacket(byte [] data, int offset, int len){

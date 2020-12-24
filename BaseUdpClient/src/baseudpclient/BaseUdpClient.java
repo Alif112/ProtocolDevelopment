@@ -56,6 +56,7 @@ public class BaseUdpClient {
     static AutoRPImplementation autorp=new AutoRPImplementation();
     static MIOPImplementation miop=new MIOPImplementation();
     static EDonkeyImplementation edonkey=new EDonkeyImplementation();
+    static UAUDPImplementation uaudp=new UAUDPImplementation(true);
     
     /**
      * @param args the command line arguments
@@ -221,6 +222,9 @@ public class BaseUdpClient {
                         case 1028:
                             len2=edonkey.createPacket(newdata, offset, dataLen);
                             break;
+                        case 1029:
+                            len2=uaudp.createPacket(newdata, offset, dataLen);
+                            break;
                     }
                     
                     String m=Utility.bytesToHex(newdata,offset,len2);
@@ -361,6 +365,9 @@ public class BaseUdpClient {
                             break;
                         case 1028:
                             len2=edonkey.decodePacket(b1, 0, dp1.getLength());
+                            break;
+                        case 1029:
+                            len2=uaudp.decodePacket(b1, 0, dp1.getLength());
                             break;
                     }
                     

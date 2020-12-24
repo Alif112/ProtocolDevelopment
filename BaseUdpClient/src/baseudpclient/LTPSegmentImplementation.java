@@ -2,10 +2,10 @@
 package baseudpclient;
 
 public class LTPSegmentImplementation {
-
+    public byte headerData[];
     
     public LTPSegmentImplementation() {
-        
+        headerData=Utility.hexStringToByteArray("e318020100");
     }
     
     public int createPacket(byte [] data, int offset, int len){
@@ -15,12 +15,8 @@ public class LTPSegmentImplementation {
             data[i + 5] = data[i];
         
         int index=offset;
-        String header="e318020100";
-        int headerLen=5;
-        byte[] headerData=new byte[headerLen];
-        headerData=Utility.hexStringToByteArray(header);
-        System.arraycopy(headerData, 0, data, index, headerLen);
-        index+=headerLen;
+        System.arraycopy(headerData, 0, data, index, headerData.length);
+        index+=headerData.length;
         
         
         return index+len;

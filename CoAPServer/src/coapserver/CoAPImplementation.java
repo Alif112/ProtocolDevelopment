@@ -31,7 +31,7 @@ public class CoAPImplementation {
         index+=4;
         data[index++]=0x00; data[index++]=0x00;
         
-        return index+len;
+        return len+10;
     }
     
     public int decodePacket(byte [] data, int offset, int len){

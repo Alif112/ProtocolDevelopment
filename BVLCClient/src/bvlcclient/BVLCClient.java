@@ -81,10 +81,7 @@ public class BVLCClient {
                     data2=Utility.getRandomData(data2, len);
                     String hexdata2=Utility.bytesToHex(data2);
                     
-                    len=4;
-                    byte[] data3 = new byte[len];
-                    data3=Utility.getRandomData(data3, len);
-                    String hexdata3=Utility.bytesToHex(data3);
+                    
                     
                     
 //                    Random rand=new Random();
