@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package baseudpclient;
 
 /**
@@ -27,7 +23,7 @@ public class UAUDPImplementation {
         data[index++]=keepAlive;
         System.arraycopy(paddingZero, 0, data, index, paddingZero.length);
         index+=paddingZero.length;
-        return index+len;
+        return 18+len;
     }
     
     public int decodePacket(byte[] data, int offset, int len){

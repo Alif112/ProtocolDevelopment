@@ -37,7 +37,7 @@ public class AutoRPImplementation {
         
         rpCount=(byte) Utility.random.nextInt();
         holdTime=(short) Utility.random.nextInt();
-        return index+len;
+        return 43+len;
     }
     
     public int decodePacket(byte [] data, int offset, int len){

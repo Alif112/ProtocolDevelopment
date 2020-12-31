@@ -47,8 +47,8 @@ public class LoWPANServer {
                     int ll=mount.decodePacket(b, 0, dp.getLength());
                     System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
-////                    
-////                            
+                    
+                    
 //                    System.out.println("==========>"+ack.length());
 //                    System.out.println(ack);
 //                    System.out.println(message.length()+" Received at server--> "+message);

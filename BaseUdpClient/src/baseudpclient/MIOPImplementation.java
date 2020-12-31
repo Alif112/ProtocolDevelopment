@@ -6,12 +6,13 @@ public class MIOPImplementation {
     public byte flag;
     public short updateLen;
     public int packetNumber;
+    public byte[] mData;
     
     public MIOPImplementation() {
         protocolVersion=(byte) 0x10;
         flag=0x03;
         packetNumber=Utility.random.nextInt();
-        
+        mData=Utility.hexStringToByteArray("c20200000000000000000000");
     }
     
     public int createPacket(byte [] data, int offset, int len){
@@ -39,8 +40,6 @@ public class MIOPImplementation {
 //        uniqueID Length
         data[index++]=0x0c; data[index++]=0x00; data[index++]=0x00; data[index++]=0x00;
 //        uniqueID
-        String m="c20200000000000000000000";
-        byte[] mData=Utility.hexStringToByteArray(m);
         System.arraycopy(mData, 0, data, index, mData.length);
         index+=mData.length;
         
@@ -49,9 +48,9 @@ public class MIOPImplementation {
     }
     
     public int decodePacket(byte [] data, int offset, int len){
-        byte mCopy[]=new byte[4];
-        for(int i=0,j=offset+11;i<4;i++,j--) mCopy[i]=data[j];
-        packetNumber=Functions.getInt4(mCopy,0);
+//        byte mCopy[]=new byte[4];
+//        for(int i=0,j=offset+11;i<4;i++,j--) mCopy[i]=data[j];
+//        packetNumber=Functions.getInt4(mCopy,0);
         System.arraycopy(data, offset+32, data, offset, len-32);
         return len-32;
     }

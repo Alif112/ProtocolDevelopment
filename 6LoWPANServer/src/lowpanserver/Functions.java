@@ -21,6 +21,26 @@ class Functions {
         data[index + 3] = (byte)(value & 0xff);
         return;
     }
+    public static void putInt4(byte[] data, int index, int value) {
+        if(data.length < index+4)return;
+        data[index] = (byte)(value >> 24 & 0xff);
+        data[index + 1] = (byte)(value >> 16 & 0xff);
+        data[index + 2] = (byte)(value >> 8 & 0xff);
+        data[index + 3] = (byte)(value & 0xff);
+        return;
+    }
+    public static int getInt4(byte[] data, int index) {
+    	int result = 0;
+	if(data == null || index+4 > data.length)return result;
+	result = data[index] & 0xff;
+	result = (result << 8) | (data[index + 1] & 0xff);
+	result = (result << 8) | (data[index + 2] & 0xff);
+	result = (result << 8) | (data[index + 3] & 0xff);
+	return result;
+    }
+    
+    
+    
     public static void putLong8(byte[] data, int index, long value) {
         if(data.length < index+8)return;
         data[index] = (byte)(value >> 56 & 0xff);
@@ -69,7 +89,21 @@ class Functions {
         data[index + 1] = (byte) (value & 0xff);
         return;
     }
-
+    
+    public static void putShort2(byte[] data, int index, short value) {
+        if (data.length < index + 2) return;
+        data[index] = (byte) (value >> 8 & 0xff);
+        data[index + 1] = (byte) (value & 0xff);
+        return;
+    }
+    public static short getShort2(byte[] array, int startIndex) {
+        return (short) (((array[startIndex] & 0xff) << 8) | (array[startIndex + 1] & 0xff));
+    }
+    
+    public static int getInt(byte[] array, int startIndex) {
+        return ((array[startIndex] & 0xff) << 8) | (array[startIndex + 1] & 0xff);
+    }
+    
     public static int byteArrayToint(byte[] array, int startIndex) {
         return ((array[startIndex] & 0xff) << 8) | (array[startIndex + 1] & 0xff);
     }

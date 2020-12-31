@@ -134,8 +134,8 @@ public class BaseUdpClient {
                     byte[] newdata=new byte[offset+dataLen+100];
                     int len2=Utility.getRandomData(newdata, offset, dataLen);
                     String m1=Utility.bytesToHex(newdata,offset,dataLen);
-//                    System.out.println("--------------> ");
-//                    System.out.println(m1);
+                    System.out.println("--------------> ");
+                    System.out.println(m1);
                     
                     switch(protocolNumber){
                         case 1001:
@@ -242,7 +242,7 @@ public class BaseUdpClient {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
                     totalSend+=1;
-                    System.out.println("Total Packet Send-----------------> "+ totalSend);
+                    System.out.println("Total Packet Sent -----------> "+ totalSend);
                     Thread.sleep(delay);
                     i++;
                     
@@ -273,7 +273,7 @@ public class BaseUdpClient {
                     int checkTime=currentTime-startTime;
                     if(checkTime>=receiverTime || countreceive==numberOfPackets){
                         ds.close();
-                        System.out.println("-------------------------------------------------------------Socket closed-----> "+ds);
+                        System.out.println("--------------------------------Socket closed-----> "+ds);
                         break;
                     }
                     
@@ -373,15 +373,15 @@ public class BaseUdpClient {
                     
                     
                     System.out.println("=======================> "+len2);
-//                    String ack=Utility.bytesToHex(b1, 0, ll);                   
-//                    System.out.println(ack);
+                    String ack=Utility.bytesToHex(b1, 0, len2);                   
+                    System.out.println(ack);
                     
                     
 //                    System.out.println("--------received-----");
 //                    System.out.println(received);
 //                    System.out.println("Received at client:-->----------------> "+ countreceive);
                     totalReceive+=1;
-                    System.out.println("Total Received at client:--->>>----------------> "+ totalReceive);
+                    System.out.println("Total Received Len= "+len2+" at client ---------> "+ totalReceive);
                     
                 }
                 

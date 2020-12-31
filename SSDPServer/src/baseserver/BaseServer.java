@@ -7,7 +7,7 @@ import java.net.SocketException;
 import java.util.Random;
 
 public class BaseServer {
-    static int ServerPort=5007;
+    static int ServerPort=3567;
     public static int countsend=0;
     public static int countreceive=0;
     public static String ip="65.99.254.85";
@@ -72,21 +72,27 @@ public class BaseServer {
                     byte[] data2 = new byte[len2];
                     data=Utility.getRandomData(data2, len2);
                     String hexdata2=Utility.bytesToHex(data2);
-//                    System.out.println(hexdata2);
                     
-                    len2=4;
-                    byte[] data3 = new byte[len2];
-                    data=Utility.getRandomData(data3, len2);
-                    String hexdata3=Utility.bytesToHex(data3);
                     
                     Random rand=new Random();
                     int idint=rand.nextInt(16);
                     byte bid=(byte) idint;
                     String id=Utility.byteToHex(bid);
                     
+                    
+//                    Dppv2
+
+                    String m="810c020c82806480"
+                        + "000000"+hexdata;
+                    //                    GSM RLC/MAC
+//                    String m="0204010027000000ffffffff0b00ff00400ea0c968422b2b742b2b2b2b2b2b2b2b2b892b2b2b2b2b"+hexdata;
+//                    GTP
+//                    String m="3211003d401c0c0c00010000018008fe1020002b701100002b5d7f00002b5d800006f12132002b5d8500040a668e1e8500040a668e1e87000c0123711f9296686874056868";
+                    
+                    
                     //STUN
-                    String m="010100582112a442fd35d5ae3101f6a0b71c2d05002000140002329adf92ac42fd35d5783b01d15f49308ac50006000b64667074663a39696868340080220009696265346a2e6f72670000500008001423be727a9c7a4b8492fd5662342f6464c8d817ad80280004a69a4f36"
-                            + "";
+//                    String m="010100582112a442fd35d5ae3101f6a0b71c2d05002000140002329adf92ac42fd35d5783b01d15f49308ac50006000b64667074663a39696868340080220009696265346a2e6f72670000500008001423be727a9c7a4b8492fd5662342f6464c8d817ad80280004a69a4f36"
+//                            + "";
                     //                    SSDP
 //                    String m="4d2d534541524348202a20485454502f312e310d0a486f73743a5b464630323a3a435d3a313930300d0a53543a75726e3a4d6963726f736f66742057696e646f77732050656572204e616d65205265736f6c7574696f6e2050726f746f636f6c3a2056343a495056363a4c696e6b4c6f63616c0d0a4d616e3a22737364703a646973636f766572220d0a4d583a330d0a0d0a"
 //                            + ""+hexdata;

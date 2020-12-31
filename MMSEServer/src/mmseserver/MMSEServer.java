@@ -3,7 +3,6 @@ package mmseserver;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
 
@@ -89,7 +88,7 @@ public class MMSEServer {
                     
                     
                     int offset=0;
-                    len=100;
+                    len=200;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);

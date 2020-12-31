@@ -51,7 +51,7 @@ public class DPPv2Implementation {
         delay=(byte) Utility.random.nextInt(255);
         
         
-        return index+len;
+        return 10+len;
     }
     
     public int decodePacket(byte [] data, int offset, int len){

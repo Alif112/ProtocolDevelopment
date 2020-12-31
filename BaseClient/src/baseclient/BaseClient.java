@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class BaseClient {
     static int delayTime=200;
-    static int clientToServerPort=5007;
+    static int clientToServerPort=3567;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
@@ -82,20 +82,18 @@ public class BaseClient {
                     data2=Utility.getRandomData(data2, len);
                     String hexdata2=Utility.bytesToHex(data2);
                     
+//                    Dppv2
+                    String m="810c020c82806480"
+                            + "000000"+hexdata;
+//                    GSM RLC/MAC
+//                    String m="0204010027000000ffffffff0b00ff00400ea0c968422b2b742b2b2b2b2b2b2b2b2b892b2b2b2b2b"+hexdata;
+//                    GTP
+//                    String m="3210008800000000000200000222880143658709f20e010ffd10201d0c0c11201d0c0c14051a0800800002f1aa83000803617031036e673184002e80c0231101010011056669736e360673656372654f802116010000160306000000008106000000008306000000008500040a668e1b8500040a668e1b860007910300250500f187000c0123711f9296686874056868";
                     
-                    
-                    
-//                    Random rand=new Random();
-//                    int idint=rand.nextInt();
-//                    byte bid=(byte) idint;
-//                    String id=Utility.byteToHex(bid);
-//                    System.out.println("id ----> "+id );
-                    
-
 
 //                    STUN
-                    String m="000100542112a442fd35d5ae3101f6a0b71c2d05002400046e001eff8029000828ee15f9825e68a70006000b64667074663a39696868340080220009696365346a9b6f726700000000080014ba84e711110be2f48b3521ed72d96d1f987f33e6802800040b1af628"
-                            + "";
+//                    String m="000100542112a442fd35d5ae3101f6a0b71c2d05002400046e001eff8029000828ee15f9825e68a70006000b64667074663a39696868340080220009696365346a9b6f726700000000080014ba84e711110be2f48b3521ed72d96d1f987f33e6802800040b1af628"
+//                            + "";
 
 //                    SSDP
 //                    String m="4d2d534541524348202a20485454502f312e310d0a486f73743a5b464630323a3a435d3a313930300d0a53543a75726e3a4d6963726f736f66742057696e646f77732050656572204e616d65205265736f6c7574696f6e2050726f746f636f6c3a2056343a495056363a4c696e6b4c6f63616c0d0a4d616e3a22737364703a646973636f766572220d0a4d583a330d0a0d0a"
@@ -148,7 +146,7 @@ public class BaseClient {
 //                    System.out.println(message.length()+" Send from client---> : "+message);
 //                    System.out.println("---Send Packet---------------------------------> "+ countsend);
                     totalSend+=1;
-                    System.out.println("Total Packet Send---------------> "+ totalSend);
+                    System.out.println("Total Packet Sent -----------> "+ totalSend);
                     delayTime=m.length();
                     Thread.sleep(delayTime);
                     i++;
@@ -192,12 +190,12 @@ public class BaseClient {
                     countreceive+=1;
                     String received= new String(dp1.getData(),0,dp1.getLength());
 //                    int ll=isakmp.decodePacket(b1, 0, dp1.getLength());
-                    System.out.println("==============================================> "+dp1.getLength());
+//                    System.out.println("==============================================> "+dp1.getLength());
 //                    String ack=Utility.bytesToHex(b1, 0, ll);                   
 //                    System.out.println(ack);
 
                     totalReceive+=1;
-                    System.out.println("Total Received at client:-->----------------> "+ totalReceive);
+                    System.out.println("Total Received: "+dp1.getLength()+" at client:-->----------------> "+ totalReceive);
                     
                 }
                 
