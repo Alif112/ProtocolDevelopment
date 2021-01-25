@@ -10,6 +10,7 @@ public class LoWPANServer {
     static int ServerPort=17754;
     public static int countsend=0;
     public static int countreceive=0;
+    public static String ip="65.99.254.78";
     
     /**
      * @param args the command line arguments
@@ -31,7 +32,7 @@ public class LoWPANServer {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("65.99.254.85"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName(ip));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);
@@ -72,6 +73,7 @@ public class LoWPANServer {
                     
                     int offset=0;
                     len=112;
+                    
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);

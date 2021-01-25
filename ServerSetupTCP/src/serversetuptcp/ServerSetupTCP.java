@@ -26,13 +26,15 @@ public class ServerSetupTCP {
     static ServerSocket ss;
     static InputStreamReader isr;
     static OutputStreamWriter osr;
-    
+    static InetAddress ia;
     
     static String ip;
-    static int serversocketport;
+    static int serverSocketPort;
     static int protocolNumber;
-    public static int offset=0,len;
+    public static int offset=0,dataLen;
     public static int len2=0;
+    static String protocolName;
+    static String version="1.1";
     
     static String msg;
     
@@ -49,13 +51,28 @@ public class ServerSetupTCP {
     static IPAImplementation ipa=new IPAImplementation();
     static CQLImplementation cql=new CQLImplementation();
     static BGPImplementation bgp=new BGPImplementation();
+    public static String[] protocolNameList={"UDP 100","NineP2000","COPS","EXEC","BasicTcp","IMAP",
+                                            "SMTP","IPA","CQL","BGP"
+                                              };
+    
+    
+    
+    public static String search(String value, ArrayList<String> prodNames) {
+        value=value+"=";
+        for (String name : prodNames) {
+            if (name.contains(value)) {
+                return name = name.replaceAll(".*=", "");
+            }
+        }
+        return null;
+    }
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("Byte Server started here");
+        
         try{
             BufferedReader br = new BufferedReader(new FileReader("serverTcpConfig.txt"));
             if(br== null){
@@ -68,18 +85,19 @@ public class ServerSetupTCP {
             }
 
             
-            protocolNumber=Integer.parseInt(list.get(0));
-            ip=list.get(1);
-            serversocketport=Integer.parseInt(list.get(2));
-            len=Integer.parseInt(list.get(3));
-            
+            protocolNumber=Integer.parseInt(search("protocolNumber", list));
+            ip=search("fixedServerIP", list);
+            serverSocketPort=Integer.parseInt(search("fixedServerPort", list));
+            dataLen=Integer.parseInt(search("dataLen", list));
+            protocolName=protocolNameList[protocolNumber-2000];
+            System.out.println(protocolName+" server version "+version+" started successfully!!!");
         }catch(Exception e){e.printStackTrace();}
         
         
         try{
             InetAddress addr = InetAddress.getByName(ip);
 
-            ss= new ServerSocket(serversocketport,50, addr);
+            ss= new ServerSocket(serverSocketPort,50, addr);
             while(true){
                 s=ss.accept();
                 Thread myThread=new MyNewThread(s);
@@ -172,40 +190,40 @@ public class ServerSetupTCP {
 //                    String msg=Utility.bytesToHex(data, offset, len);
                     System.out.println("Received at Server=================> "+len2);
 
-                    byte[] newdata=new byte[offset+len+500];
-                    len2=Utility.getRandomData(newdata, offset, len);
-                    String m1=Utility.bytesToHex(newdata,offset,len);
+                    byte[] newdata=new byte[offset+dataLen+500];
+                    len2=Utility.getRandomData(newdata, offset, dataLen);
+                    String m1=Utility.bytesToHex(newdata,offset,dataLen);
 //                    System.out.println("--------------> ");
 //                    System.out.println(m1);
                     
                     
                     switch(protocolNumber){
                     case 2001:
-                        len2=nineP2000.createPacket(newdata, offset, len);
+                        len2=nineP2000.createPacket(newdata, offset, dataLen);
                         break;
                     case 2002:
-                        len2=cops.createPacket(newdata, offset, len);
+                        len2=cops.createPacket(newdata, offset, dataLen);
                         break;
                     case 2003:
-                        len2=exec.createPacket(newdata, offset, len);
+                        len2=exec.createPacket(newdata, offset, dataLen);
                         break;
                     case 2004:
-                        len2=tcp.createPacket(newdata, offset, len);
+                        len2=tcp.createPacket(newdata, offset, dataLen);
                         break;
                     case 2005:
-                        len2=imap.createPacketAtServer(newdata, offset, len);
+                        len2=imap.createPacketAtServer(newdata, offset, dataLen);
                         break;
                     case 2006:
-                        len2=smtp.createPacket(newdata, offset, len);
+                        len2=smtp.createPacket(newdata, offset, dataLen);
                         break;
                     case 2007:
-                        len2=ipa.createPacketAtServer(newdata, offset, len);
+                        len2=ipa.createPacketAtServer(newdata, offset, dataLen);
                         break;
                     case 2008:
-                        len2=cql.createPacketAtServer(newdata, offset, len);
+                        len2=cql.createPacketAtServer(newdata, offset, dataLen);
                         break;    
                     case 2009:
-                        len2=bgp.createPacket(newdata, offset, len);
+                        len2=bgp.createPacket(newdata, offset, dataLen);
                         break;
                         
                 }
@@ -219,7 +237,7 @@ public class ServerSetupTCP {
 //                    os.write(message);
                     os.write(senddata);
                     
-                    System.out.println("-> "+len+"----------sending number of data "+ sendCount++);
+                    System.out.println(dataLen+" Bytes of "+protocolName+" data sending -->number of packet is "+ sendCount++);
                 }
                 
             

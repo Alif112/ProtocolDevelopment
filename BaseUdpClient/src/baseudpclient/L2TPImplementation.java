@@ -62,7 +62,7 @@ public class L2TPImplementation {
         }
         System.arraycopy(tempData, offset, data, offset, protocolLen);
         
-        return offset+12+numberOfBlock*10;
+        return 12+numberOfBlock*10;
     }
     
     public int decodePacket(byte [] data, int offset, int len){

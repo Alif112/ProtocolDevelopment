@@ -1,4 +1,4 @@
-package bvlcserver;
+package dropboxserver;
 
 
 import java.net.DatagramPacket;
@@ -7,9 +7,9 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-public class BVLCServer {
-    static String ip="173.82.62.35";
-    static int ServerPort=47808;
+public class DropboxServer {
+    static String ip="65.99.254.85";
+    static int ServerPort=17500;
     public static int countsend=0;
     public static int countreceive=0;
     
@@ -18,14 +18,14 @@ public class BVLCServer {
      */
     public static void main(String[] args) throws SocketException {
         
-        System.out.println("BVLC server Started Successfully");
+        System.out.println("Dropbox server Started Successfully");
         Thread t=new MyThread();
         t.start();
 
     }
 
     private static class MyThread extends Thread {
-        BVLCImplementation xtacacs=new BVLCImplementation();
+        DropboxImplementation dropbox=new DropboxImplementation();
         public MyThread() {
         }
 
@@ -44,7 +44,7 @@ public class BVLCServer {
                     String message=new String(dp.getData(),0,dp.getLength());
 //                    System.out.println(message);
                     
-                    int ll=xtacacs.decodePacket(b, 0, dp.getLength());
+                    int ll=dropbox.decodePacket(b, 0, dp.getLength());
                     System.out.println("==============================================> "+ll);
                     String ack=Utility.bytesToHex(b, 0, ll);
                     
@@ -83,13 +83,13 @@ public class BVLCServer {
                     int offset=0;
                     len=100;
                     
-                    byte[] newdata=new byte[offset+len+100];
+                    byte[] newdata=new byte[offset+len+1000];
                     int len2=Utility.getRandomData(newdata, offset, len);
                     String m1=Utility.bytesToHex(newdata,offset,len);
 //                    System.out.println("--------------> ");
 //                    System.out.println(m1);
                     
-                    len2=xtacacs.createPacket(newdata, offset, len);
+                    len2=dropbox.createPacket(newdata, offset, len,17500);
                     String m=Utility.bytesToHex(newdata,offset,len2);
 //                    System.out.println("================================>          "+ len2);
 //                    System.out.println(m);

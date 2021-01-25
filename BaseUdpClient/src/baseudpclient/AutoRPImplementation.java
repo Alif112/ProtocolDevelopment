@@ -2,17 +2,19 @@
 package baseudpclient;
 
 public class AutoRPImplementation {
-    public byte protocolVersion;
+    public static byte protocolVersion;
     public byte rpCount;
     public short holdTime;
-    public byte mData[];
+    public static byte mData[];
     
-    public AutoRPImplementation() {
+    static{
         mData=Utility.hexStringToByteArray("bdb37708386c25540b1005804b000000000000280000000c000000010100000e");
         protocolVersion=(byte) 0xff;
+    }
+    
+    public AutoRPImplementation() {
         rpCount=(byte) Utility.random.nextInt();
         holdTime=(short) Utility.random.nextInt();
-        
     }
     
     public int createPacket(byte [] data, int offset, int len){
@@ -30,7 +32,7 @@ public class AutoRPImplementation {
         data[index++]=0x4f; data[index++]=(byte) 0xef;
         data[index++]=0x78; data[index++]=(byte) 0xc0;
         
-
+        
         System.arraycopy(mData, 0, data, index, mData.length);
         index+=mData.length;
         data[index++]=0x00; data[index++]=0x00; data[index++]=0x00;
@@ -41,8 +43,8 @@ public class AutoRPImplementation {
     }
     
     public int decodePacket(byte [] data, int offset, int len){
-//        rpCount=data[offset+1];
-//        holdTime=Functions.getShort2(data, offset+2);
+    	rpCount=data[offset+1];
+    	holdTime=Functions.getShort2(data, offset+2);
         
         System.arraycopy(data, offset+43, data, offset, len-43);
         

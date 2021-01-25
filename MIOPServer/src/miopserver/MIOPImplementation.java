@@ -1,17 +1,25 @@
 
 package miopserver;
 
+
 public class MIOPImplementation {
-    public byte protocolVersion;
-    public byte flag;
+    public static byte protocolVersion;
+    public static byte flag;
     public short updateLen;
     public int packetNumber;
+    public static byte[] mData;
+    public int numberOfPackets;
     
-    public MIOPImplementation() {
+    static{
         protocolVersion=(byte) 0x10;
         flag=0x03;
-        packetNumber=Utility.random.nextInt();
-        
+        mData=Utility.hexStringToByteArray("c20200000000000000000000");
+    }
+    
+    
+    public MIOPImplementation() {
+        numberOfPackets=Utility.random.nextInt();
+        packetNumber=1;
     }
     
     public int createPacket(byte [] data, int offset, int len){
@@ -29,31 +37,44 @@ public class MIOPImplementation {
         updateLen=(short) len;
         Functions.putShort2(data, index, updateLen);
         index+=2;
-        byte temp=data[index-2]; data[index-2]=data[index-1]; data[index-1]=temp;
+        shuffleByte(data, index-2, 1);
         Functions.putInt4(data, index, packetNumber);
         index+=4;
-        temp=data[index-1]; data[index-1]=data[index-4]; data[index-4]=temp;
-        temp=data[index-2]; data[index-2]=data[index-3]; data[index-3]=temp;
+        shuffleByte(data, index-4,2);
 //        Number of Packets
-        data[index++]=0x01; data[index++]=0x00; data[index++]=0x00; data[index++]=0x00;
+//        data[index++]=0x01; data[index++]=0x00; data[index++]=0x00; data[index++]=0x00;
+        Functions.putInt4(data, index, numberOfPackets);
+        index+=4;
+        shuffleByte(data, index-4,2);
 //        uniqueID Length
-        data[index++]=0x0c; data[index++]=0x00; data[index++]=0x00; data[index++]=0x00;
+        Functions.putInt4(data, index, len+12);
+        index+=4;
+        shuffleByte(data, index-4,2);
 //        uniqueID
-        String m="c20200000000000000000000";
-        byte[] mData=Utility.hexStringToByteArray(m);
         System.arraycopy(mData, 0, data, index, mData.length);
         index+=mData.length;
         
-        packetNumber=Utility.random.nextInt();
-        return index+len;
+        numberOfPackets=Utility.random.nextInt();
+        packetNumber+=1;
+        return 32+len;
     }
     
     public int decodePacket(byte [] data, int offset, int len){
-        byte mCopy[]=new byte[4];
-        for(int i=0,j=offset+11;i<4;i++,j--) mCopy[i]=data[j];
-        packetNumber=Functions.getInt4(mCopy,0);
+        shuffleByte(data, offset+8,2);
+        packetNumber=Functions.getInt4(data, offset+8);
+        shuffleByte(data, offset+12,2);
+        numberOfPackets=Functions.getInt4(data, offset+12);
         System.arraycopy(data, offset+32, data, offset, len-32);
         return len-32;
     }
+    
+    public void shuffleByte(byte[] data,int index,int numberOfSwap){
+        for(int i=0;i<numberOfSwap;i++){
+            byte temp=data[index+i];
+            data[index+i]=data[index+numberOfSwap*2-i-1];
+            data[index+numberOfSwap*2-i-1]=temp;
+        }
+    }
+    
   
 }

@@ -1,12 +1,12 @@
 
-package bvlcserver;
+package baseudpserver;
 
-public class BVLCImplementation {
+public class BVLCImplementation_1 {
     public byte protocolHeader;
     public short updateLength;
     
     
-    public BVLCImplementation() {
+    public BVLCImplementation_1() {
         protocolHeader=(byte) 0x81;
         
     }

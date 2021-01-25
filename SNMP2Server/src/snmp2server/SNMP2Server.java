@@ -8,7 +8,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 public class SNMP2Server {
-    static String ip="72.249.184.95";
+    static String ip="51.89.247.103";
     static int ServerPort=161;
     public static int countsend=0;
     public static int countreceive=0;

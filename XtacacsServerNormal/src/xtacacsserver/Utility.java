@@ -1,4 +1,4 @@
-package bvlcserver;
+package xtacacsserver;
 
 import java.util.Random;
 
@@ -69,6 +69,10 @@ public class Utility {
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    static String byteToHex(byte[] b, int i, int length) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 

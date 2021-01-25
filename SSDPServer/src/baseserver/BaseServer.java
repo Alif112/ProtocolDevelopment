@@ -7,10 +7,10 @@ import java.net.SocketException;
 import java.util.Random;
 
 public class BaseServer {
-    static int ServerPort=3567;
+    static int ServerPort=443;
     public static int countsend=0;
     public static int countreceive=0;
-    public static String ip="65.99.254.85";
+    public static String ip="207.210.233.62";
     
     /**
      * @param args the command line arguments
@@ -79,11 +79,13 @@ public class BaseServer {
                     byte bid=(byte) idint;
                     String id=Utility.byteToHex(bid);
                     
-                    
+                    String m="0b0051124059687474703a2f2f7761702e636f6d2e70682f636861742f646973704d6573732e7068703f313039383332383835392650485053456d5335443d6464636138373935333236376564333932663833393137336163343832653465436f6f6b6965005048505345535349443d64646361383739353332363765643339326638333931373361633438326534650000"+hexdata;
+//                    DB-LSP-DISC
+//                    String m="7b2276657273696f6e223a205b322c20305d2c2022706f7274223a2031373530302c2022686f73745f696e74223a203233323337323832393631373331313737313038333130363530383730343534363130303234352c2022646973706c61796e616d65223a2022222c20226e616d65737061636573223a205b343935313039393230302c20363339383532313030382c20363837313835373032342c20313330343734393431362c20343334373238303230382c20333930393138393638302c203935353738353635362c20363837303637303431362c20383637323236383838305d7d";
 //                    Dppv2
 
-                    String m="810c020c82806480"
-                        + "000000"+hexdata;
+//                    String m="810c020c82806480"
+//                        + "000000"+hexdata;
                     //                    GSM RLC/MAC
 //                    String m="0204010027000000ffffffff0b00ff00400ea0c968422b2b742b2b2b2b2b2b2b2b2b892b2b2b2b2b"+hexdata;
 //                    GTP

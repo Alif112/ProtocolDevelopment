@@ -1,0 +1,4 @@
+protocolNumber=2005
+fixedServerIP=65.99.254.85
+fixedServerPort=143
+dataLen=500

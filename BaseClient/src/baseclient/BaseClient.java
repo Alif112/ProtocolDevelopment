@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class BaseClient {
     static int delayTime=200;
-    static int clientToServerPort=3567;
+    static int clientToServerPort=137;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
@@ -18,7 +18,7 @@ public class BaseClient {
     static int socketClosedCount=0;
     
     
-    static String ip="65.99.254.85";
+    static String ip="207.210.233.62";
     
     static BVLCImplementation isakmp=new BVLCImplementation();
     
@@ -72,7 +72,7 @@ public class BaseClient {
                 Thread myReceiver=new MyReceiver(ds);
                 myReceiver.start();
                 while(i<numberOfPackets){
-                    int len=200;
+                    int len=100;
                     byte[] data = new byte[len];
                     data=Utility.getRandomData(data, len);
                     String hexdata=Utility.bytesToHex(data);
@@ -81,10 +81,21 @@ public class BaseClient {
                     byte[] data2 = new byte[len];
                     data2=Utility.getRandomData(data2, len);
                     String hexdata2=Utility.bytesToHex(data2);
+//                    /cigi
+                    String s="db0301100000000000000000204641464345504545434e464445464643464745464643444344554341434141410000200001";
                     
+                    System.out.println(s.toUpperCase());
+                    
+                    
+                    String m=s+hexdata;
+                    
+//                    RTP
+//                    String m="8012001a00232580aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+                    //                    DB-LSP-DISC
+//                    String m="7b2276657273696f6e223a205b322c20305d2c2022706f7274223a2030373530302c2022686f73745f696e74223a203233323337323832393631373331313737313038333130363530383730343534363130303234352c2022646973706c61796e616d65223a2022222c20226e616d65737061636573223a205b344441313039393230302c20363339383532313030382c20363837313835373032342c20313330343734393431362c20343334373238303230382c20333930393138393638302c203935353738353635362c20363837303637303431362c20383637323236383838305d7d";
 //                    Dppv2
-                    String m="810c020c82806480"
-                            + "000000"+hexdata;
+//                    String m="810c020c82806480"
+//                            + "000000"+hexdata;
 //                    GSM RLC/MAC
 //                    String m="0204010027000000ffffffff0b00ff00400ea0c968422b2b742b2b2b2b2b2b2b2b2b892b2b2b2b2b"+hexdata;
 //                    GTP

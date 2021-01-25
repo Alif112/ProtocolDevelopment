@@ -11,7 +11,7 @@ public class TFTP2Server {
     static int ServerPort=69;
     public static int countsend=0;
     public static int countreceive=0;
-    public static String ip="72.249.184.22";
+    public static String ip="72.249.184.238";
     
     /**
      * @param args the command line arguments

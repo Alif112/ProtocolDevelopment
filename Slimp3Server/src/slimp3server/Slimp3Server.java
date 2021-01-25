@@ -11,6 +11,7 @@ public class Slimp3Server {
     static int ServerPort=1069;
     public static int countsend=0;
     public static int countreceive=0;
+    public static String ip="51.89.247.103";
     
     /**
      * @param args the command line arguments
@@ -38,7 +39,7 @@ public class Slimp3Server {
         public void run() {
             try{
 //                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("localhost"));
-                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName("65.99.254.85"));
+                DatagramSocket ds=new DatagramSocket(ServerPort, InetAddress.getByName(ip));
                 byte[] b=new byte[2048];
 
                 DatagramPacket dp=new DatagramPacket(b, b.length);

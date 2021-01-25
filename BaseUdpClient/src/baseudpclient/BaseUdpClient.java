@@ -10,7 +10,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class BaseUdpClient {
 
@@ -24,9 +23,15 @@ public class BaseUdpClient {
     static int serverSocketPort;
     static int dataLen,offset=0;
     static String ip;
-    static int socketInput;
+    static int socketType;
     static int delay;
     static InetAddress sia,ia;
+    static int minimumPortRange=1, maximumPortRange=65000;
+    static byte[] header;
+    static String headerString;
+    static int headerLen,multiUser,numberOfUser;
+    static String protocolName;
+    
     
     static UFTPImplementation uftp=new UFTPImplementation();
     static CIGIImplementation cigi=new CIGIImplementation();
@@ -57,59 +62,113 @@ public class BaseUdpClient {
     static MIOPImplementation miop=new MIOPImplementation();
     static EDonkeyImplementation edonkey=new EDonkeyImplementation();
     static UAUDPImplementation uaudp=new UAUDPImplementation(true);
+    static DropboxImplementation dropbox=new DropboxImplementation();
+    static UDP100Implementation udp100=new UDP100Implementation();
+    static RDTImplementation rdt=new RDTImplementation();
+    
+    public static String[] protocolNameList={"UDP 100","UFTP","CIGI","NFS","NTP","SNMP",
+                                            "CLDAP","L2TP","BFD","WSP","MOUNT",
+                                            "STAT","ICMPv6","6LoWPAN","DSPv2","TEPv1",
+                                            "DPPv2", "CoAP",  "TFTP", "IPv6", "LTPSegment",
+                                            "XTACACS", "ISAKMP","BVLC", "MMSE","Slimp3",
+                                            "AutoRP", "MIOP","eDonkey", "UAUDP","Dropbox",
+                                            "RDT"
+                                              };
+    
     
     /**
-     * @param args the command line arguments
+     * @param value
+     * @param prodNames
+     
+     * @return 
      */
+    
+    public static String search(String value, ArrayList<String> prodNames) {
+        value=value+"=";
+        for (String name : prodNames) {
+            if (name.contains(value)) {
+                return name = name.replaceAll(".*=", "");
+            }
+        }
+        return null;
+    }
+    
     public static void main(String[] args) throws SocketException, UnknownHostException, InterruptedException {
         
         int i=0;
         System.out.println("Udp Client Started...........");
-                try{
+        ArrayList<String> list=new ArrayList<String>(); 
+        try{
             BufferedReader br = new BufferedReader(new FileReader("udpClientSetup.txt"));
             if(br== null){
                 throw new FileNotFoundException();
             }
-            ArrayList<String> list=new ArrayList<String>(); 
+            
             String line;
             while((line=br.readLine())!=null){
-                list.add(line);
+                if(line.charAt(0)!='#')
+                        list.add(line);
             }
-
             
-            protocolNumber=Integer.parseInt(list.get(0));
-            ip=list.get(1);
-            serverSocketPort=Integer.parseInt(list.get(2));
-            dataLen=Integer.parseInt(list.get(3));
-            delay=Integer.parseInt(list.get(4));
-            socketInput=Integer.parseInt(list.get(5));
+            
+            protocolNumber=Integer.parseInt(search("protocolNumber", list));
+            ip=search("fixedClientIP", list);
+            serverSocketPort=Integer.parseInt(search("fixedClientPort", list));
+            dataLen=Integer.parseInt(search("dataLen", list));
+            delay=Integer.parseInt(search("dealy", list));
+            socketType=Integer.parseInt(search("socketType", list));
+            numberOfPackets=Integer.parseInt(search("numberOfPacketsPerSocket", list));
+            header=Utility.hexStringToByteArray(search("rtpHeader", list));
+            headerLen=header.length;
+            multiUser=Integer.parseInt(search("multiUser", list));
+            numberOfUser=Integer.parseInt(search("numberOfUser", list));
+            protocolName=protocolNameList[protocolNumber-1000];
             
         }catch(Exception e){e.printStackTrace();}
        
         ia=InetAddress.getByName(ip);
         sia=InetAddress.getByName("10.0.0.2");
         check=true;
-       if(socketInput==-1){
-           check=false;
-           numberOfPackets=99999;
-           DatagramSocket ds=new DatagramSocket();
-
-           MySender mySender=new MySender(ds);
-           mySender.init();
-           i++;
+        DatagramSocket ds;
         
-       }
-       else{
-           while(true){
-               numberOfPackets=socketInput;
-               DatagramSocket ds=new DatagramSocket();
-
-               MySender mySender=new MySender(ds);
-               mySender.init();
-
-               i++;
-             }
-       }
+        switch (socketType) {
+            case -1:
+                if(multiUser==1){
+                    check=false;
+                    numberOfPackets=99999;
+                    ds=new DatagramSocket();
+                    MySender mySender=new MySender(ds);
+                    mySender.init();
+                }else{
+                    
+                    check=false;
+                    numberOfPackets=99999;
+                    ds=new DatagramSocket();
+                    MySender mySender=new MySender(ds);
+                    mySender.init();
+                }
+                i++;
+                break;
+            case 0:
+                minimumPortRange=Integer.parseInt(search("minimumPortRange=", list));
+                maximumPortRange=Integer.parseInt(search("maximumPortRange=", list));;
+                serverSocketPort=minimumPortRange-1;
+                while(true){
+                    ds=new DatagramSocket();
+                    MySender mySender = new MySender(ds);
+                    mySender.init();
+                }    
+                
+            default:
+                while(true){
+                    
+                    ds=new DatagramSocket();
+                    MySender mySender = new MySender(ds);
+                    mySender.init();
+                    i++;
+                }  
+                
+        }
         
        
     }
@@ -122,22 +181,33 @@ public class BaseUdpClient {
 
         public void init() {
             try {
+                if(socketType==0){
+                    serverSocketPort=serverSocketPort++;
+                    if(serverSocketPort>maximumPortRange)serverSocketPort=minimumPortRange-1;
+                }
+                
                 int i=0,j=0;
                 int countsend=0;
                 
                 Thread myReceiver=new MyReceiver(ds);
                 myReceiver.start();
+
                 while(i<numberOfPackets){
 
                     offset=0;
                     
-                    byte[] newdata=new byte[offset+dataLen+100];
+                    byte[] newdata=new byte[offset+dataLen+1000];
                     int len2=Utility.getRandomData(newdata, offset, dataLen);
                     String m1=Utility.bytesToHex(newdata,offset,dataLen);
-                    System.out.println("--------------> ");
-                    System.out.println(m1);
+//                    System.out.println("--------------> ");
+//                    System.out.println(m1);
                     
+                    
+
                     switch(protocolNumber){
+                        case 1000:
+                            len2=udp100.createPacket(newdata, offset, dataLen, header, headerLen);
+                            break;
                         case 1001:
                             len2=uftp.createPacket(newdata, offset, dataLen,ia,sia);
                             break;
@@ -199,7 +269,7 @@ public class BaseUdpClient {
                             len2=ltp.createPacket(newdata, offset, dataLen);
                             break;
                         case 1021:
-                            len2=xtacacs.createPacket(newdata, offset, dataLen, (Inet4Address) ia,49);
+                            len2=xtacacs.createPacket(newdata, offset, dataLen, (Inet4Address) ia,serverSocketPort);
                             break;
                         case 1022:
                             len2=isakmp.createPacket(newdata, offset, dataLen);
@@ -225,6 +295,12 @@ public class BaseUdpClient {
                         case 1029:
                             len2=uaudp.createPacket(newdata, offset, dataLen);
                             break;
+                        case 1030:
+                            len2=dropbox.createPacket(newdata, offset, dataLen,serverSocketPort);
+                            break;
+                        case 1031:
+                            len2=rdt.createPacket(newdata, offset, dataLen);
+                            break;
                     }
                     
                     String m=Utility.bytesToHex(newdata,offset,len2);
@@ -242,11 +318,12 @@ public class BaseUdpClient {
                     String message=new String(dp.getData(),0,dp.getLength());
                     
                     totalSend+=1;
-                    System.out.println("Total Packet Sent -----------> "+ totalSend);
+                    System.out.println(protocolName+"  Total Packet Sent --------------> "+ totalSend);
                     Thread.sleep(delay);
                     i++;
                     
                 }
+                
                 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -285,6 +362,9 @@ public class BaseUdpClient {
                     countreceive+=1;
 //                    String received= new String(dp1.getData(),0,b1.length);
                     switch(protocolNumber){
+                        case 1000:
+                            len2=udp100.decodePacket(b1, 0, dp1.getLength(),headerLen);
+                            break;
                         case 1001:
                             len2=uftp.decodePacket(b1, 0, dp1.getLength());
                             break;
@@ -369,13 +449,19 @@ public class BaseUdpClient {
                         case 1029:
                             len2=uaudp.decodePacket(b1, 0, dp1.getLength());
                             break;
+                        case 1030:
+                            len2=dropbox.decodePacket(b1, 0, dp1.getLength());
+                            break;
+                        case 1031:
+                            len2=rdt.decodePacket(b1, 0, dp1.getLength());
+                            break;
                     }
                     
                     
-                    System.out.println("=======================> "+len2);
-                    String ack=Utility.bytesToHex(b1, 0, len2);                   
-                    System.out.println(ack);
-                    
+//                    System.out.println("=======================> "+len2);
+//                    String ack=Utility.bytesToHex(b1, 0, len2);                   
+//                    System.out.println(ack);
+//                    
                     
 //                    System.out.println("--------received-----");
 //                    System.out.println(received);

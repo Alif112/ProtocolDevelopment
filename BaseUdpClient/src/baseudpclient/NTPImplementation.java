@@ -7,7 +7,6 @@
 package baseudpclient;
 
 
-import java.net.InetAddress;
 
 /**
  *

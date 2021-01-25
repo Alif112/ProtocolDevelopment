@@ -20,7 +20,7 @@ import java.util.Scanner;
  * @author User
  */
 public class IMAPClient {
-    public static int delayTime=1000;
+    public static int delayTime=300;
     public static int clientport=143;
     public static int numberOfPackets=5000;
     public static int numberOfMultiPkt=20;
@@ -95,7 +95,7 @@ public class IMAPClient {
                 offset=0;
                 
                 while (i<numberOfPackets){
-                    len=1000;
+                    len=500;
                     byte[] data2 = new byte[len];
                     data2=Utility.getRandomData(data2, len);
                     String hexdata2=Utility.bytesToHex(data2);
@@ -213,18 +213,8 @@ public class IMAPClient {
                     data3=Utility.getRandomData(data3, len);
                     String hexdata3=Utility.bytesToHex(data3);
                     
-//                    String m="10060000"
-//                            + "0000016c"
-//                            + "001f0b01412050455020666f72206578616d706c6520707572706f7365730000"
-//                            + "0144"
-//                            + "10010000000100000000"
-//                            + "67fa197f98283b0aefa31042"+hexdata2;
-                    
-//                    System.out.println("-------------------->");
-//                    System.out.println(hexdata2);
-                    
                     offset=0;
-                    len=1000;
+                    len=500;
                     
                     byte[] newdata=new byte[offset+len+100];
                     int len2=Utility.getRandomData(newdata, offset, len);

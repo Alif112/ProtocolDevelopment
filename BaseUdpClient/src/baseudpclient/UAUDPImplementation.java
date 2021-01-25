@@ -7,12 +7,15 @@ package baseudpclient;
  */
 public class UAUDPImplementation {
     private static byte keepAlive;
-    private byte[] paddingZero;
+    private static byte[] paddingZero;
+    static {
+        paddingZero=Utility.hexStringToByteArray("0000000000000000000000000000000000");
+    }
     
     public UAUDPImplementation(boolean isClient){
         if(isClient) keepAlive=0x04;
         else keepAlive=0x05;
-        paddingZero=Utility.hexStringToByteArray("0000000000000000000000000000000000");
+        
 
     }
     

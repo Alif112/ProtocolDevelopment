@@ -3,12 +3,16 @@ package uaudpserver;
 
 public class UAUDPImplementation {
     private static byte keepAlive;
-    private byte[] paddingZero;
+    private static byte[] paddingZero;
+    
+    static{
+        
+        paddingZero=Utility.hexStringToByteArray("0000000000000000000000000000000000");
+    }
     
     public UAUDPImplementation(boolean isClient){
         if(isClient) keepAlive=0x04;
         else keepAlive=0x05;
-        paddingZero=Utility.hexStringToByteArray("0000000000000000000000000000000000");
 
     }
     
@@ -19,7 +23,7 @@ public class UAUDPImplementation {
         data[index++]=keepAlive;
         System.arraycopy(paddingZero, 0, data, index, paddingZero.length);
         index+=paddingZero.length;
-        return index+len;
+        return 18+len;
     }
     
     public int decodePacket(byte[] data, int offset, int len){

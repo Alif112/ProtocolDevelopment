@@ -26,12 +26,13 @@ public class IMAPImplementation {
     
     private byte[] tempArray=new byte[2048];
     private byte[] partOneLogin,userName,passWord;
-    private String partOneOfLogin;
+    static String partOneOfLogin;
+    
+    static{partOneOfLogin="6130303031204c4f47494e2022";}
     
     public IMAPImplementation() {
         reqTrackNumber=Utility.random.nextInt(9999);
-        partOneOfLogin="6130303031204c4f47494e2022";
-        
+
    }
 
     public boolean imapHandshakeAtClient(Socket socket){

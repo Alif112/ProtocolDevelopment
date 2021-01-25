@@ -3,11 +3,9 @@ package coapserver;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.Random;
-import sun.audio.AudioPlayer;
+
 
 public class CoAPServer {
     static int ServerPort=5683;

@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bvlcserver;
+package xtacacsserver;
 
 import java.util.Random;
-
 
 /**
  *
  * @author User
  */
+
 class Functions {
     static Random random =new Random();
     
