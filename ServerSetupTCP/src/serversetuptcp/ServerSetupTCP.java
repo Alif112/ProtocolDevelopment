@@ -21,6 +21,8 @@ import java.util.ArrayList;
  *
  * @author User
  */
+
+
 public class ServerSetupTCP {
     static Socket s;
     static ServerSocket ss;
@@ -34,13 +36,13 @@ public class ServerSetupTCP {
     public static int offset=0,dataLen;
     public static int len2=0;
     static String protocolName;
-    static String version="1.1";
+    static String version="1.2";
     
     static String msg;
     
     
     
-    static int sendCount=1;
+    static int sendCount=1,sequenceNumber=0;
     
     static NineP2000Implementation nineP2000=new NineP2000Implementation(false); //201
     static COPSImplementation cops=new COPSImplementation(); //202
@@ -147,7 +149,7 @@ public class ServerSetupTCP {
                 
                 InputStream is = s.getInputStream();
                 OutputStream os = s.getOutputStream();
-                byte [] data = new byte[2048];
+                byte [] data = new byte[offset+dataLen+2048];
 //                br=new BufferedReader(isr);
                 
                 while(true){
@@ -187,43 +189,47 @@ public class ServerSetupTCP {
                         System.out.println("---------------------------------------> "+len2);
                         break;
                     }
-//                    String msg=Utility.bytesToHex(data, offset, len);
+//                    String msg=Utility.bytesToHex(data, offset, len2);
+//                    System.out.println(msg);
                     System.out.println("Received at Server=================> "+len2);
 
                     byte[] newdata=new byte[offset+dataLen+500];
-                    len2=Utility.getRandomData(newdata, offset, dataLen);
-                    String m1=Utility.bytesToHex(newdata,offset,dataLen);
+                    int sendDataLen=Utility.getRandomData(newdata, offset, dataLen);
+                    if(sequenceNumber==256) sequenceNumber=0;
+                    newdata[sendDataLen]=(byte) sequenceNumber++;
+                    
+                    String m1=Utility.bytesToHex(newdata,offset,sendDataLen+1);
 //                    System.out.println("--------------> ");
 //                    System.out.println(m1);
                     
                     
                     switch(protocolNumber){
                     case 2001:
-                        len2=nineP2000.createPacket(newdata, offset, dataLen);
+                        len2=nineP2000.createPacket(newdata, offset, sendDataLen+1);
                         break;
                     case 2002:
-                        len2=cops.createPacket(newdata, offset, dataLen);
+                        len2=cops.createPacket(newdata, offset, sendDataLen+1);
                         break;
                     case 2003:
-                        len2=exec.createPacket(newdata, offset, dataLen);
+                        len2=exec.createPacket(newdata, offset, sendDataLen+1);
                         break;
                     case 2004:
-                        len2=tcp.createPacket(newdata, offset, dataLen);
+                        len2=tcp.createPacket(newdata, offset, sendDataLen+1);
                         break;
                     case 2005:
-                        len2=imap.createPacketAtServer(newdata, offset, dataLen);
+                        len2=imap.createPacketAtServer(newdata, offset, sendDataLen+1);
                         break;
                     case 2006:
-                        len2=smtp.createPacket(newdata, offset, dataLen);
+                        len2=smtp.createPacket(newdata, offset, sendDataLen+1);
                         break;
                     case 2007:
-                        len2=ipa.createPacketAtServer(newdata, offset, dataLen);
+                        len2=ipa.createPacketAtServer(newdata, offset, sendDataLen+1);
                         break;
                     case 2008:
-                        len2=cql.createPacketAtServer(newdata, offset, dataLen);
+                        len2=cql.createPacketAtServer(newdata, offset, sendDataLen+1);
                         break;    
                     case 2009:
-                        len2=bgp.createPacket(newdata, offset, dataLen);
+                        len2=bgp.createPacket(newdata, offset, sendDataLen+1);
                         break;
                         
                 }

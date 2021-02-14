@@ -3,13 +3,14 @@ package baseclient;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class BaseClient {
-    static int delayTime=200;
-    static int clientToServerPort=137;
+    static int delayTime=300;
+    static int clientToServerPort=496;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
@@ -18,8 +19,8 @@ public class BaseClient {
     static int socketClosedCount=0;
     
     
-    static String ip="207.210.233.62";
-    
+//    static String ip="207.210.233.111";
+    static String ip="65.99.254.78";
     static BVLCImplementation isakmp=new BVLCImplementation();
     
     /**
@@ -72,7 +73,7 @@ public class BaseClient {
                 Thread myReceiver=new MyReceiver(ds);
                 myReceiver.start();
                 while(i<numberOfPackets){
-                    int len=100;
+                    int len=200;
                     byte[] data = new byte[len];
                     data=Utility.getRandomData(data, len);
                     String hexdata=Utility.bytesToHex(data);
@@ -81,13 +82,20 @@ public class BaseClient {
                     byte[] data2 = new byte[len];
                     data2=Utility.getRandomData(data2, len);
                     String hexdata2=Utility.bytesToHex(data2);
+
+                    
+                    String m="ffb99e024fef78c0bdb37708386c25540b1005804b000000000000280000000c000000010100000e0000003ee00000f8cafc3c57a9d5cf2afef876fbc6118fda71b578f05769de7a7ec35abedcf8567f35c0cfd4b97e4690cfe91583d9faabe07ff846b03b1d5a6f1606ff50";
+                    //AYIYA
+//                    String m="0bd429c6018000237067079a0cf11e2c9ccd8536645b4d333ce8666c86651fa78223ca0811765c22850819720000"+hexdata;
+//                    Mac-telnet
+//                    String m="01010018f391bcec000c424360ce002f001500000009563412ff0200000011003b89fdc4f60a50482dee2203c5aafe09560812ff030000000561646d696e563412ff04000000056c696e7578d93412ff05000000250000563412ff06000000021800"+hexdata;
 //                    /cigi
-                    String s="db0301100000000000000000204641464345504545434e464445464643464745464643444344554341434141410000200001";
+//                    String s="e7e4df7b1fe706e36fef26839a493d3b4400003a000000054c494d4500005b0c7075600bcbdc89190c4de84853fab6e8b7f10497d5e7e90045010100006d81efa0884f2a57aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
                     
-                    System.out.println(s.toUpperCase());
+//                    System.out.println(s.toUpperCase());
                     
                     
-                    String m=s+hexdata;
+//                    String m=s+hexdata;
                     
 //                    RTP
 //                    String m="8012001a00232580aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";

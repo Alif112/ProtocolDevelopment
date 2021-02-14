@@ -174,15 +174,13 @@ public class SMTPImplementation {
         return false;
 
     }
-
-
-
-
+    
+    
     public int createPacket(byte [] data, int offset, int len){
-        if(data.length <= offset + len + 233)
+        if(data.length <= offset + len + 234)
             return len;
         for(int i = offset + len - 1; i >=offset; i--)
-            data[i + 231] = data[i];
+            data[i + 232] = data[i];
 
         int index=offset;
         System.arraycopy(header, 0, data, index, header.length);
@@ -190,11 +188,13 @@ public class SMTPImplementation {
         byte[] dateData=getDateAndTime().getBytes();
         System.arraycopy(dateData, 0, data, index, dateData.length);
         index+=dateData.length; //30 bytes
+//        System.out.println("--------------------> "+dateData.length);
         data[index++]=0x0d; data[index++]=0x0a;
         System.arraycopy(mime, 0, data, index, mime.length);
         index+=mime.length; //19
         System.arraycopy(content, 0, data, index, content.length);
         index+=content.length; //32
+//        System.out.println("--------------------------------> position "+ index);
         Functions.putInt4(data, index, len);
         index+=4;
         index+=len;
@@ -205,9 +205,10 @@ public class SMTPImplementation {
 
     public int decodePacket(byte [] data, int offset, InputStream is){
         try{
-            Functions.ignoreByte(is, 227);
+            Functions.ignoreByte(is, 228);
             createLen=Utility.buildLen4(is);
             is.read(data,0,createLen);
+//            System.out.println("===========================create len "+ createLen);
             Functions.ignoreByte(is, 2);
             return createLen;
         }catch(Exception e){
@@ -215,5 +216,6 @@ public class SMTPImplementation {
         }
         return -1;
     }
+    
 
 }

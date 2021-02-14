@@ -25,7 +25,7 @@ public class SMTPServer {
     static OutputStreamWriter osr;
     static BufferedReader br;
     static String msg;
-    static String ip="65.99.254.85";
+    static String ip="65.99.254.17";
     static int serversocketport=587;
     public static int offset,len;
     static int sendCount=1;
