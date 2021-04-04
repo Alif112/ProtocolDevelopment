@@ -303,11 +303,14 @@ class Functions {
             data[index++]=(byte) Utility.random.nextInt(255);
         return index;
     }
-    static void ignoreByte(InputStream is, int i) throws IOException {
-        int r;
-       for(int j=0;j<i;j++)
-           r=is.read();
+    
+    public static void ignoreByte(InputStream is, int numberOfBytesToIgnore) throws IOException {
+       while(numberOfBytesToIgnore!=0){
+           is.read();
+           numberOfBytesToIgnore--;
+       }
     }
+    
     public static int getRandomData(byte [] array,int offset,int len) {
         for(int i=0;i<len;i++){
             array[offset+i] = (byte) random.nextInt(256);

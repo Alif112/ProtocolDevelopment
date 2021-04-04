@@ -61,14 +61,16 @@ public class BaseUdpServer {
     static UDP100Implementation udp100=new UDP100Implementation();
     static RDTImplementation rdt=new RDTImplementation();
     static MACTelnetImplementation macTelnet=new MACTelnetImplementation();
+    static DCP_PFTImplementation dcp_pft=new DCP_PFTImplementation();
     
-    public static String[] protocolNameList={"UDP 100","UFTP","CIGI","NFS","NTP","SNMP",
+    
+    public static String[] protocolNameListUDP={"UDP 100","UFTP","CIGI","NFS","NTP","SNMP",
                                             "CLDAP","L2TP","BFD","WSP","MOUNT",
                                             "STAT","ICMPv6","6LoWPAN","DSPv2","TEPv1",
                                             "DPPv2", "CoAP",  "TFTP", "IPv6", "LTPSegment",
                                             "XTACACS", "ISAKMP","BVLC", "MMSE","Slimp3",
                                             "AutoRP", "MIOP","eDonkey", "UAUDP","Dropbox",
-                                            "RDT","MACTelnet"
+                                            "RDT", "MACTelnet","DCP-PFT","WireGuard"
                                               };
     
     public static String search(String value, ArrayList<String> prodNames) {
@@ -113,7 +115,7 @@ public class BaseUdpServer {
         }catch(Exception e){e.printStackTrace();}
         
         int position=protocolNumber-1000;
-        protocolName=protocolNameList[position];
+        protocolName=protocolNameListUDP[position];
         System.out.println(protocolName+" server version "+serverVersion+" Started Successfully.... ");
         
         Thread t=new MyThread();
@@ -288,6 +290,16 @@ public class BaseUdpServer {
                             len1=macTelnet.decodePacket(b1, 0, dp1.getLength());
                             len2=macTelnet.createPacket(newdata, offset, sendDataLen+1);
                             break;
+                        case 1033:
+                            len1=dcp_pft.decodePacket(b1, 0, dp1.getLength());
+                            len2=dcp_pft.createPacket(newdata, offset, sendDataLen+1);
+                            break;
+                        case Constants.WIREGUARD:
+                            len1=Constants.wireGuard.decodePacket(b1, 0, dp1.getLength());
+                            len2=Constants.wireGuard.createPacket(newdata, offset, sendDataLen+1);
+                            break;
+                                
+                                
                     }
                     
                     /**show decoded message**/

@@ -361,3 +361,12 @@
 /BaseUdpServer/dist/
 /BaseUdpServer/build/
 /ClientSetupTCP/nbproject/private/
+/ServerSetupTCP/ServerTcp/build
+/VPN/nbproject/private/
+/VPNSwing/nbproject/private/
+/RegexGenerator/nbproject/private/
+/RegexGenerator/build/
+/RegexGenerator/dist/
+/Helper/nbproject/private/
+/Helper/build/
+/Helper/dist/

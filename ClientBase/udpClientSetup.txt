@@ -1,10 +1,10 @@
 protocolType=0
-protocolNumber=1000
-fixedClientIP=65.99.254.78
-fixedClientPort=496
-dataLen=0
+protocolNumber=1034
+fixedClientIP=65.99.254.11
+fixedClientPort=51820
+dataLen=200
 dealy=200
-socketType=5
+socketType=1
 numberOfPacketsPerSocket=10
 minimumPortRange=1000;
 maximumPortRange=2000;

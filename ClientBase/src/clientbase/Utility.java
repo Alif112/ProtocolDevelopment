@@ -81,14 +81,19 @@ public class Utility {
         return createLen;
     }
     
-    static byte[] l2=new byte[2];
-    static short createLen;
-    static short buildLen2(InputStream is) throws IOException {
-        for(int j=0;j<2;j++)
-            l2[j]=(byte) is.read();
-        createLen=Functions.getShort2(l2, 0);
-        return createLen;
+    public static short buildLen2(InputStream is) throws IOException {
+        return (short) (((is.read() & 0xff) << 8) | (is.read() & 0xff));
     }
-
+    
+    public static int readLen2(InputStream is) throws IOException{
+        return ((is.read() & 0xff) << 8) | (is.read() & 0xff);
+    }
+    
+    public static int readLen4(InputStream is) throws IOException{
+        return ((is.read() & 0xff) << 24) |
+                ((is.read() & 0xff)<<16) |
+                ((is.read() & 0xff)<<8) |
+                (is.read() & 0xff);
+    }
     
 }

@@ -3,14 +3,13 @@ package baseclient;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class BaseClient {
-    static int delayTime=300;
-    static int clientToServerPort=496;
+    static int delayTime=200;
+    static int clientToServerPort=55935;
     static int numberOfPackets=5;
     static int totalSend=0;
     static int totalReceive=0;
@@ -19,8 +18,8 @@ public class BaseClient {
     static int socketClosedCount=0;
     
     
-//    static String ip="207.210.233.111";
-    static String ip="65.99.254.78";
+    static String ip="207.210.233.111";
+//    static String ip="65.99.254.78";
     static BVLCImplementation isakmp=new BVLCImplementation();
     
     /**
@@ -73,7 +72,7 @@ public class BaseClient {
                 Thread myReceiver=new MyReceiver(ds);
                 myReceiver.start();
                 while(i<numberOfPackets){
-                    int len=200;
+                    int len=257;
                     byte[] data = new byte[len];
                     data=Utility.getRandomData(data, len);
                     String hexdata=Utility.bytesToHex(data);
@@ -83,8 +82,13 @@ public class BaseClient {
                     data2=Utility.getRandomData(data2, len);
                     String hexdata2=Utility.bytesToHex(data2);
 
-                    
-                    String m="ffb99e024fef78c0bdb37708386c25540b1005804b000000000000280000000c000000010100000e0000003ee00000f8cafc3c57a9d5cf2afef876fbc6118fda71b578f05769de7a7ec35abedcf8567f35c0cfd4b97e4690cfe91583d9faabe07ff846b03b1d5a6f1606ff50";
+//                    DCP-PFT
+                    String m="504623c400001d000100ffffff47454741764141"+hexdata;
+//                            + "4141250041414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141344141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141";
+//                    DTLS capcom
+//                    String m="01000000c0feff000000000000001b00380100002c00010000000000bffeff9e143a9a3bc97efb15f365dae2264d4d14b9f837305718ef80b186c4bc944fa600000004002f000a0100";
+//                    AutoRP
+//                    String m="ffb99e024fef78c0bdb37708386c25540b1005804b000000000000280000000c000000010100000e0000003ee00000f8cafc3c57a9d5cf2afef876fbc6118fda71b578f05769de7a7ec35abedcf8567f35c0cfd4b97e4690cfe91583d9faabe07ff846b03b1d5a6f1606ff50";
                     //AYIYA
 //                    String m="0bd429c6018000237067079a0cf11e2c9ccd8536645b4d333ce8666c86651fa78223ca0811765c22850819720000"+hexdata;
 //                    Mac-telnet

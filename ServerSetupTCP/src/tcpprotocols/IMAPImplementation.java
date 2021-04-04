@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serversetuptcp;
+package tcpprotocols;
 
+import utils.Functions;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import utils.Utility;
 
 /**
  *
@@ -17,14 +19,22 @@ import java.net.Socket;
 public class IMAPImplementation {
     public int reqTrackNumber;
     public byte idOfHeaderServer;
-    public int lenAtServer;
-    public byte[] headerArrayAtServer;
+//    public int lenAtServer;
+//    public byte[] headerArrayAtServer;
     public int sum,mod,multiplier,reader;
     public int readLenatServerHandshake;
     public byte [] tempArray = new byte[2048];
     
-    static byte[] b1=Functions.hexStringToByteArray("2a204341504142494c49545920494d41503420494d415034726576312049444c45204c49544552414c2b204c4f47494e2d524546455252414c53204d41494c424f582d524546455252414c53204e414d45535041434520415554483d4e544c4d0d0a6130303030204f4b204341504142494c49545920636f6d706c657465642e0d0a");
-    static byte[] b2=Functions.hexStringToByteArray("6130303031204f4b204c4f47494e20636f6d706c657465642e0d0a");
+    static byte[] capability=Functions.hexStringToByteArray("2a204341504142494c49545920494d41503420494d415034726576312049444c45204c49544552414c2b204c4f47494e2d524546455252414c53204d41494c424f582d524546455252414c53204e414d45535041434520415554483d4e544c4d0d0a6130303030204f4b204341504142494c49545920636f6d706c657465642e0d0a");
+    static byte[] login =Functions.hexStringToByteArray("6130303031204f4b204c4f47494e20636f6d706c657465642e0d0a");
+	private static String[] headesrArray={" OK LIST completed.\r\n",
+            " OK [READ-WRITE] SELECT completed.\r\n",
+            " OK NOOP completed.\r\n",
+            " OK FETCH completed.\r\n",
+            " OK STORE completed.\r\n",
+            " OK STORE completed.\r\n",
+            " OK EXPUNGE completed.\r\n",
+            " OK CLOSE completed.\r\n"};
 
     
     public boolean imapHandshakeAtServer(Socket socket){
@@ -34,11 +44,11 @@ public class IMAPImplementation {
             
             readLenatServerHandshake=is.read(tempArray, 0, 18);
 //            System.out.println("received at server----------1: -> "+readLenatServerHandshake);
-            os.write(b1);
+            os.write(capability);
             os.flush();
             String serverLoginReceiver=Functions.readLine(is, tempArray);
 //            System.out.println("-------Login receiver---> "+serverLoginReceiver);
-            os.write(b2);
+            os.write(login);
             os.flush();
 //            System.out.println("HandShaking Successful at Server!!!");
             return true;
@@ -51,23 +61,20 @@ public class IMAPImplementation {
         return false;
     }
     
-    public byte[] getImapServerHeader(int index){
+    public int getImapServerHeader(byte [] data, int offset){
         String str="";
-        String[] headesrArray={" OK LIST completed.\r\n",
-            " OK [READ-WRITE] SELECT completed.\r\n",
-            " OK NOOP completed.\r\n",
-            " OK FETCH completed.\r\n",
-            " OK STORE completed.\r\n",
-            " OK STORE completed.\r\n",
-            " OK EXPUNGE completed.\r\n",
-            " OK CLOSE completed.\r\n"};
-        str=headesrArray[index];
-        byte[] data = str.getBytes();
-        if(data.length<36){
-            data=Functions.concatenateByteArrays(data,Functions.getRandomData(36-data.length));
+        int index = 0;
+        str = headesrArray[idOfHeaderServer];
+        int headerLen = str.length();
+        System.arraycopy(str.getBytes(), 0, data, offset + index, headerLen);
+        index += headerLen;
+        if(headerLen < 36){
+        	Functions.getRandomData(data, offset + index, 36 - headerLen);
+        	index += (36 - headerLen);
+//            data=Functions.concatenateByteArrays(data,Functions.getRandomData(36-data.length));
         }
 
-        return data;
+        return index;
     }
     
     
@@ -80,15 +87,12 @@ public class IMAPImplementation {
         int index=offset;
         data[index++]=0x61;
         for(int i=index+3;i>=index;i--){
-            mod=reqTrackNumber%10;
+            mod = reqTrackNumber%10;
             data[i]=(byte) (0x30+mod);
             reqTrackNumber=reqTrackNumber/10;
         }
         index+=4;
-        
-        headerArrayAtServer=getImapServerHeader(idOfHeaderServer);
-        System.arraycopy(headerArrayAtServer, 0, data, index, headerArrayAtServer.length);
-        index+=headerArrayAtServer.length;
+        index += getImapServerHeader(data, index);
         Functions.putShort2(data, index, (short) len);
         index+=2;
 
@@ -97,10 +101,10 @@ public class IMAPImplementation {
     
     public int decodePacketAtServer(byte [] data, int offset, InputStream is) throws IOException{
         Functions.ignoreByte(is, 1);
-        reqTrackNumber=getReqTrackNumber(is);
+        reqTrackNumber = getReqTrackNumber(is);
         Functions.ignoreByte(is, 45);
-        idOfHeaderServer=(byte) is.read();
-        lenAtServer=Utility.buildLen2(is);
+        idOfHeaderServer = (byte) is.read();
+        int lenAtServer = Utility.buildLen2(is);
         is.read(data, offset, lenAtServer);    
         return lenAtServer;
     }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serversetuptcp;
+package utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,7 +72,7 @@ public class Utility {
         return new String(hexChars);
     }
 
-    static int buildLen4(InputStream is) throws IOException {
+    public static int buildLen4(InputStream is) throws IOException {
         byte[] l=new byte[4];
         for(int j=0;j<4;j++)
             l[j]=(byte) is.read();
@@ -80,12 +80,19 @@ public class Utility {
         return createLen;
     }
     
-    static short buildLen2(InputStream is) throws IOException {
-        byte[] l=new byte[2];
-        for(int j=0;j<2;j++)
-            l[j]=(byte) is.read();
-        short createLen=Functions.getShort2(l, 0);
-        return createLen;
+    public static short buildLen2(InputStream is) throws IOException {
+        return (short) (((is.read() & 0xff) << 8) | (is.read() & 0xff));
+    }
+    
+    public static int readLen2(InputStream is) throws IOException{
+        return ((is.read() & 0xff) << 8) | (is.read() & 0xff);
+    }
+    
+    public static int readLen4(InputStream is) throws IOException{
+        return ((is.read() & 0xff) << 24) |
+                ((is.read() & 0xff)<<16) |
+                ((is.read() & 0xff)<<8) |
+                (is.read() & 0xff);
     }
     
 

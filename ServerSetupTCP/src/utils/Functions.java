@@ -1,9 +1,15 @@
+package utils;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serversetuptcp;
+
+/**
+ *
+ * @author User
+ */
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +19,7 @@ import java.util.Random;
  *
  * @author User
  */
-class Functions {
+public class Functions {
     static Random random =new Random();
     
     public static void putLong(byte[] data, int index, long value) {
@@ -111,7 +117,7 @@ class Functions {
         return ((array[startIndex] & 0xff) << 8) | (array[startIndex + 1] & 0xff);
     }
     
-    static void ignoreByte(InputStream is, int i) throws IOException {
+    public static void ignoreByte(InputStream is, int i) throws IOException {
         int r;
        for(int j=0;j<i;j++)
            r=is.read();
@@ -379,6 +385,9 @@ class Functions {
             data[index++]=(byte) Utility.random.nextInt(255);
         return index;
     }
-    
+
+    public static void getRandomData(byte[] data, int offset, int len) {
+        for(int i=offset;i<offset+len;i++) data[i]=(byte) Utility.random.nextInt();
+    }
     
 }

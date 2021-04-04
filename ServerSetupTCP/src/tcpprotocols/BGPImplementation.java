@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serversetuptcp;
+package tcpprotocols;
 
 import java.io.InputStream;
+import utils.Utility;
+import utils.Functions;
 
 /**
  *
@@ -18,7 +20,7 @@ public class BGPImplementation {
     private byte[] messageHeader1;
     private short myAs,holdTime;
     
-    BGPImplementation() {
+    public BGPImplementation() {
         packetTypeController=1;
         messageHeader1=Utility.hexStringToByteArray("ffffffffffffffffffffffffffffffff");
         myAs=(short) Utility.random.nextInt();

@@ -1,0 +1,17 @@
+DEBUG   2021-03-03 10:12:30,225 [main] serversetuptcp.ServerSetupTCP  - logger done 
+INFO    2021-03-03 10:12:30,225 [main] serversetuptcp.Configuration  - ----------------------- loading Config file--------------------
+INFO    2021-03-03 10:12:30,225 [main] serversetuptcp.Configuration  - inputConfigFromServer 1
+INFO    2021-03-03 10:12:30,225 [main] serversetuptcp.Configuration  - protocolType tcp
+INFO    2021-03-03 10:12:30,225 [main] serversetuptcp.Configuration  - protocolNumber 2007
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - protocolName IPA
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - fixedConfigIP 65.99.254.10
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - fixedConfigPort 138
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - dataLen 200
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - rtpHeader 001903c5000087b200000087b200000087b200000087b208000087b200000087b200000087b200000087b200000087b200000087b200000087b25f000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200000087b200
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - serverIP 65.99.254.10
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - enableFixedPort 0
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - fixedPortForServer 17500
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - enableSocialBypass 0
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - minimumPortRange 6000
+INFO    2021-03-03 10:12:30,241 [main] serversetuptcp.Configuration  - maximumPortRange 8000
+DEBUG   2021-03-03 10:12:30,241 [main] serversetuptcp.ServerSetupTCP  - ------------Config Loaded----------

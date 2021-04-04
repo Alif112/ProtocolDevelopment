@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serversetuptcp;
+package tcpprotocols;
 
+import utils.Functions;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import utils.Utility;
 
 /**
  *
@@ -17,18 +19,19 @@ import java.net.Socket;
 public class CQLImplementation {
     
     private int createLen;
-    private byte[] messageData1,secondHeaderHand;
-    private short streamCode;
+    private int streamCode;
+    private static byte[] messageData1=Utility.hexStringToByteArray("0002000b434f4d5052455353494f4e00020006736e6170707900036c7a34000b43514c5f56455253494f4e00010005332e332e31");
+    private static byte[] resultRowAndCol={0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x01};
+    public int querySize;
+    
     
     public CQLImplementation() {
         streamCode=3;
-        messageData1=Utility.hexStringToByteArray("0002000b434f4d5052455353494f4e00020006736e6170707900036c7a34000b43514c5f56455253494f4e00010005332e332e31");
    }
 
     public boolean cqlHandshakeAtServer(Socket socket){
         byte data[]=new byte[1024];
         int index=0,offset=0;
-        byte[] username,password;
         try {
             InputStream is=socket.getInputStream();
             OutputStream os=socket.getOutputStream();
@@ -62,39 +65,33 @@ public class CQLImplementation {
             data[i + 23] = data[i]; 
         
         int index=offset;
-        index=getBaseStructure(data, index, (byte)132, streamCode, (byte)8, len+18);
-//        resulting kind
-        data[index++]=0x00; data[index++]=0x00; data[index++]=0x00; data[index++]=0x01;
-//        rows result flags
-        data[index++]=0x00; data[index++]=0x00; data[index++]=0x00; data[index++]=0x01;
-//        column count 
-        data[index++]=0x00; data[index++]=0x00; data[index++]=0x00; data[index++]=0x01;
-//        Datalen
-        Functions.putShort2(data, index, (short)len);;
+        index=getBaseStructure(data, index, (byte)132, (short) streamCode, (byte)8, len+18);
+        System.arraycopy(resultRowAndCol, 0, data, index, resultRowAndCol.length);
+        index+=resultRowAndCol.length;
+        Functions.putShort2(data, index, (short)len);
         index+=2;
         index+=len;
         
 //        CQL result rows
         data[index++]=0x00; data[index++]=0x00; data[index++]=0x00; data[index++]=0x00;
         
-        return index;
+        return len+27;
     }
     
-    public int decodePacketAtServer(byte [] data, int offset, InputStream is){
-        try{
+    public int decodePacketAtServer(byte [] data, int offset, InputStream is) throws IOException{
             Functions.ignoreByte(is, 2);
-            streamCode=Utility.buildLen2(is);
-            Functions.ignoreByte(is, 5);
-            createLen=Utility.buildLen4(is);
-            System.out.println("--------------------------------------------------------- "+createLen);
+            streamCode=Utility.readLen2(is);
+            is.read();
+            createLen=Utility.readLen4(is);
+            querySize=Utility.readLen4(is);
+            createLen=createLen-querySize-9;
+            
+            Functions.ignoreByte(is, querySize+3);
+            
             is.read(data, offset, createLen);
             Functions.ignoreByte(is, 3);
-
+//            System.out.print("---------------------create len at server----->  "+createLen);
             return createLen;
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return -1;
     }
     public int getBaseStructure(byte[] data, int offset,byte version,short streamCode,byte opCode,int lenWithExtra)
     {

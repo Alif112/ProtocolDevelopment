@@ -71,6 +71,7 @@ public class ClientBase {
     static UDP100Implementation udp100=new UDP100Implementation();
     static RDTImplementation rdt=new RDTImplementation();
     static MACTelnetImplementation macTelnet=new MACTelnetImplementation(); 
+    static DCP_PFTImplementation dcp_fpt=new DCP_PFTImplementation();
     
     
     public static String[] protocolNameListUDP={"UDP 100","UFTP","CIGI","NFS","NTP","SNMP",
@@ -79,7 +80,7 @@ public class ClientBase {
                                             "DPPv2", "CoAP",  "TFTP", "IPv6", "LTPSegment",
                                             "XTACACS", "ISAKMP","BVLC", "MMSE","Slimp3",
                                             "AutoRP", "MIOP","eDonkey", "UAUDP","Dropbox",
-                                            "RDT", "MACTelnet"
+                                            "RDT", "MACTelnet","DCP-PFT","Wireguard"
                                               };
     
     static NineP2000Implementation nineP2000=new NineP2000Implementation(false); //201
@@ -91,6 +92,17 @@ public class ClientBase {
     static IPAImplementation ipa=new IPAImplementation();
     static CQLImplementation cql=new CQLImplementation();
     static BGPImplementation bgp=new BGPImplementation();
+    
+    public int getConfig(byte[] data, int offset, Inet4Address ip,int port) throws IOException, Exception{
+        int index=offset;
+        Socket skt=new Socket(ip, port);
+        InputStream is=skt.getInputStream();
+        OutputStream os=skt.getOutputStream();
+        os.write(0x01);
+        os.flush();
+        Functions.readLine(is, data);
+        return index;
+    }
     
     public static String[] protocolNameListTCP={"TCP 100","NineP2000","COPS","EXEC","BasicTcp","IMAP",
                                             "SMTP","IPA","CQL","BGP"
@@ -238,8 +250,7 @@ public class ClientBase {
 //                    String m1=Utility.bytesToHex(newdata,offset,sendDataLen+1);
 //                    System.out.println("--------------> "+(sendDataLen+1));
 //                    System.out.println(m1);
-                    
-                    
+
 
                     switch(protocolNumber){
                         case 1000:
@@ -260,7 +271,7 @@ public class ClientBase {
                         case 1005:
                             len2=snmp.createPacket(newdata, offset, sendDataLen+1);
                             break;
-                            case 1006:
+                        case 1006:
                             len2=cldap.createPacket(newdata, offset, sendDataLen+1);
                             break;
                         case 1007:
@@ -341,10 +352,15 @@ public class ClientBase {
                         case 1032:
                                 len2=macTelnet.createPacket(newdata, offset, sendDataLen+1);
                             break;
+                        case 1033:
+                                len2=dcp_fpt.createPacket(newdata, offset, sendDataLen+1);
+                            break;
+                        case Constants.WIREGUARD:
+                            len2=Constants.wireguard.createPacket(newdata, offset, sendDataLen+1);
                     }
                     
                     String m=Utility.bytesToHex(newdata,offset,len2);
-//                    System.out.println("================================>          "+ len2);
+//                    System.out.println("sending len ================================>          "+ len2);
 //                    System.out.println(m);
                   
                     byte[] b1=Utility.hexStringToByteArray(m);
@@ -497,6 +513,12 @@ public class ClientBase {
                         case 1032:
                             len2=macTelnet.decodePacket(b1, 0, dp1.getLength());
                             break;
+                        case 1033:
+                            len2=dcp_fpt.decodePacket(b1, 0, dp1.getLength());
+                            break;
+                        case Constants.WIREGUARD:
+                            len2=Constants.wireguard.decodePacket(b1, offset, dp1.getLength());
+                            
                     }
                     
                     

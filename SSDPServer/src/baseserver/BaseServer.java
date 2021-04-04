@@ -7,7 +7,7 @@ import java.net.SocketException;
 import java.util.Random;
 
 public class BaseServer {
-    static int ServerPort=5072;
+    static int ServerPort=55935;
     public static int countsend=0;
     public static int countreceive=0;
     public static String ip="207.210.233.111";
@@ -78,8 +78,14 @@ public class BaseServer {
                     int idint=rand.nextInt(16);
                     byte bid=(byte) idint;
                     String id=Utility.byteToHex(bid);
+                    
+                    
+//                    DCP-PFT
+                    String m="504623c400001d000100ffffff47454741764141"+hexdata;
+                    //                    DTLS capcom
+//                    String m="01000000c0feff000000000000001b00380100002c00010000000000bffeff9e143a9a3bc97efb15f365dae2264d4d14b9f837305718ef80b186c4bc944fa600000004002f000a0100";
                     //AYIYA
-                    String m="0bd429c6018000237067079a0cf11e2c9ccd8536645b4d333ce8666c86651fa78223ca0811765c22850819720000"+hexdata;
+//                    String m="0bd429c6018000237067079a0cf11e2c9ccd8536645b4d333ce8666c86651fa78223ca0811765c22850819720000"+hexdata;
 //                    MAC-telnet
 //                    String m="0102000c424360ce0018f391bcec0015002f00000055"+hexdata;
                     

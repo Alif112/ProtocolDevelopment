@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serversetuptcp;
+package tcpprotocols;
 
-import static serversetuptcp.ServerSetupTCP.offset;
+import utils.Functions;
 import java.io.IOException;
 import java.io.InputStream;
+import utils.Utility;
 
 /**
  *

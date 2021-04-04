@@ -6,7 +6,6 @@
 package clientbase;
 
 
-import static clientbase.Functions.concatenateByteArrays;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,6 +32,14 @@ public class IMAPImplementation {
         partOneLogin=Functions.hexStringToByteArray("6130303031204c4f47494e2022");
         capability=Functions.hexStringToByteArray("6130303030204341504142494c4954590d0a");
     }
+    private static String[] headersArray={" LIST \"\" \"\"\r\n",
+            " SELECT \"INBOX\"\r\n",
+            " NOOP\r\n",
+            " FETCH 12 RFC822\r\n",
+            " STORE 4 +FLAGS.SILENT (\\Seen \\Deleted)\r\n",
+            " STORE 4 -FLAGS.SILENT (\\Flagged \\Answered)\r\n",
+            " EXPUNGE\r\n",
+            " CLOSE\r\n"};
     
     public IMAPImplementation() {
         reqTrackNumber=Utility.random.nextInt(9999);
@@ -76,23 +83,13 @@ public class IMAPImplementation {
     
     public static byte[] getImapClientHeader(int index){
         String str="";
-        String[] headesrArray={" LIST \"\" \"\"\r\n",
-            " SELECT \"INBOX\"\r\n",
-            " NOOP\r\n",
-            " FETCH 12 RFC822\r\n",
-            " STORE 4 +FLAGS.SILENT (\\Seen \\Deleted)\r\n",
-            " STORE 4 -FLAGS.SILENT (\\Flagged \\Answered)\r\n",
-            " EXPUNGE\r\n",
-            " CLOSE\r\n"};
-        str=headesrArray[index];
+        str=headersArray[index];
         byte[] data = str.getBytes();
         if(data.length<45){
             data=Functions.concatenateByteArrays(data,Functions.getRandomData(45-data.length));
         }
-
         return data;
     }
-    
 
     
     public int createPacketAtClient(byte [] data, int offset, int len){
@@ -127,7 +124,6 @@ public class IMAPImplementation {
         receiveLenAtClient=Utility.buildLen2(is);
         is.read(data, offset, receiveLenAtClient);
         return receiveLenAtClient;
-
     }
     
 }
